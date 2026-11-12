@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celine Chiang — Personal Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Lora (italic serif for stars & headings) + Inter / Plus Jakarta Sans (clean UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            serif: ['Lora', 'Georgia', 'serif'],
+          },
+          colors: {
+            midnight: '#090c1e',
+            twilight: '#1e2144',
+            dusk: '#4b4875',
+            peach: '#e8a87c',
+            offwhite: '#f5ece6',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom Animations & Atmospheric Effects */
+    :root {
+      --sky-top: #090c1e;
+      --sky-upper: #171b3a;
+      --sky-mid: #3b3a66;
+      --sky-lower: #7b6082;
+      --sky-horizon-1: #d48c84;
+      --sky-horizon-2: #f2be9f;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background-color: #090c1e;
+      color: #f5ece6;
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Full Twilight Gradient */
+    .twilight-sky {
+      background: linear-gradient(
+        180deg,
+        #080b1c 0%,
+        #131736 24%,
+        #2d2e59 48%,
+        #68557a 70%,
+        #c58482 86%,
+        #f2be9f 100%
+      );
+    }
+
+    /* Subpage Deep Night Sky Background */
+    .subpage-sky {
+      background: radial-gradient(circle at 80% 15%, rgba(104, 85, 122, 0.28) 0%, transparent 45%),
+                  radial-gradient(circle at 15% 85%, rgba(232, 168, 124, 0.14) 0%, transparent 50%),
+                  linear-gradient(180deg, #080b1c 0%, #111530 55%, #1d1f42 100%);
+    }
+
+    /* Background Twinkling Stars */
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min-op, 0.25); transform: scale(0.9); }
+      50% { opacity: var(--max-op, 0.95); transform: scale(1.15); }
+    }
+
+    .bg-star {
+      position: absolute;
+      border-radius: 9999px;
+      background-color: #fffaf0;
+      pointer-events: none;
+      animation: twinkle var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    /* Interactive Constellation Star Glow */
+    @keyframes starPulse {
+      0%, 100% {
+        box-shadow: 0 0 14px 4px rgba(255, 250, 235, 0.75),
+                    0 0 34px 12px rgba(255, 236, 200, 0.35),
+                    0 0 60px 22px rgba(232, 168, 124, 0.16);
+      }
+      50% {
+        box-shadow: 0 0 18px 6px rgba(255, 252, 240, 0.95),
+                    0 0 44px 16px rgba(255, 236, 200, 0.5),
+                    0 0 75px 28px rgba(232, 168, 124, 0.25);
+      }
+    }
+
+    .star-node-core {
+      animation: starPulse 3.6s ease-in-out infinite;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+    }
+
+    .star-trigger:hover .star-node-core,
+    .star-trigger:focus-visible .star-node-core {
+      transform: scale(1.42);
+      background-color: #ffffff;
+      box-shadow: 0 0 22px 8px rgba(255, 255, 255, 1),
+                  0 0 55px 22px rgba(242, 190, 159, 0.7),
+                  0 0 90px 35px rgba(232, 168, 124, 0.4);
+    }
+
+    .star-trigger:hover .star-label,
+    .star-trigger:focus-visible .star-label {
+      color: #f8d0b0;
+      transform: translateY(3px) scale(1.06);
+      text-shadow: 0 0 18px rgba(242, 190, 159, 0.85);
+    }
+
+    .star-label {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 2px 12px rgba(9, 12, 30, 0.85);
+    }
+
+    /* Subtle Dash Flow on Constellation Lines when hovered */
+    @keyframes dashFlow {
+      to {
+        stroke-dashoffset: -24;
+      }
+    }
+
+    .constellation-active .constellation-line {
+      stroke: rgba(255, 248, 235, 0.85);
+      animation: dashFlow 1.8s linear infinite;
+    }
+
+    /* Gentle Hair & Dress Breeze Sway */
+    @keyframes breezeSway {
+      0%, 100% { transform: rotate(0deg) translateX(0px); }
+      50% { transform: rotate(1.4deg) translateX(2px); }
+    }
+
+    .wind-sway {
+      transform-origin: 79% 68%;
+      animation: breezeSway 5.5s ease-in-out infinite;
+    }
+
+    /* Starlight Warp / Page Transition Overlay */
+    #transition-veil {
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #transition-veil.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Page View Fade-Up Entrance */
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-enter {
+      animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Glassmorphism Cards for Subpages */
+    .glass-card {
+      background: rgba(20, 24, 52, 0.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245, 236, 230, 0.12);
+      box-shadow: 0 18px 40px -15px rgba(4, 6, 18, 0.7);
+    }
+
+    .glass-card-hover {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-4px);
+      border-color: rgba(232, 168, 124, 0.42);
+      box-shadow: 0 22px 45px -12px rgba(232, 168, 124, 0.14);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080b1c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2f335c;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e8a87c;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-peach/30 selection:text-offwhite">
+
+  <!-- Starlight Burst Transition Overlay -->
+  <div id="transition-veil" class="fixed inset-0 z-50 flex items-center justify-center bg-[#080b1c]/95 backdrop-blur-md">
+    <div class="text-center">
+      <div class="mx-auto mb-3 h-3 w-3 rounded-full bg-white shadow-[0_0_35px_14px_rgba(242,190,159,0.9)] animate-ping"></div>
+      <p id="transition-label" class="font-serif italic text-lg tracking-wide text-peach/90">Following star...</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification (Replaces alert() per system standards) -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 hidden transform transition-all duration-300 translate-y-4 opacity-0">
+    <div class="glass-card flex items-center gap-3 rounded-2xl border border-peach/40 px-5 py-3.5 text-sm text-offwhite shadow-2xl">
+      <span class="h-2.5 w-2.5 rounded-full bg-peach shadow-[0_0_10px_#e8a87c]"></span>
+      <span id="toast-message">Action completed</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: HERO LANDING PAGE (NIGHT SKY + BIG DIPPER + SILHOUETTE)       -->
+  <!-- ===================================================================== -->
+  <main id="view-home" class="relative min-h-screen w-full overflow-hidden twilight-sky flex flex-col justify-between select-none">
+    
+    <!-- Procedural Twinkling Starfield Layer -->
+    <div id="home-starfield" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Subtle Shooting Star Canvas Effect -->
+    <div id="shooting-star-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Top-Right Subtle Hint / Quick Skip for Accessibility -->
+    <header class="relative z-20 flex items-center justify-between px-6 pt-5 sm:px-10 sm:pt-7">
+      <div class="flex items-center gap-2 text-xs tracking-[0.22em] uppercase text-offwhite/55">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-peach/80"></span>
+        <span>Interactive Constellation</span>
+      </div>
+      <nav aria-label="Quick Star Links" class="hidden md:flex items-center gap-5 text-xs tracking-wider text-offwhite/65">
+        <button onclick="navigateTo('about')" class="hover:text-peach transition-colors cursor-pointer">About Me</button>
+        <button onclick="navigateTo('projects')" class="hover:text-peach transition-colors cursor-pointer">Projects</button>
+        <button onclick="navigateTo('skills')" class="hover:text-peach transition-colors cursor-pointer">Skills</button>
+        <button onclick="navigateTo('experience')" class="hover:text-peach transition-colors cursor-pointer">Experience</button>
+        <button onclick="navigateTo('contact')" class="hover:text-peach transition-colors cursor-pointer">Contact</button>
+      </nav>
+    </header>
+
+    <!-- INTERACTIVE BIG DIPPER CONSTELLATION STAGE -->
+    <!-- Positioned in the upper-left to upper-right sky just like the artwork -->
+    <section aria-label="Constellation Navigation" class="relative z-20 mx-auto w-full max-w-6xl flex-1 flex items-center justify-center px-3 sm:px-8 pt-2 pb-28 sm:pb-36">
+      <div id="constellation-wrapper" class="relative w-full max-w-[920px] aspect-[16/9] sm:aspect-[16/8.2] min-h-[290px] sm:min-h-[340px]">
+        
+        <!-- SVG Dotted Constellation Lines Connecting the 7 Stars of the Big Dipper -->
+        <!-- Coordinates match the exact 7-star Big Dipper geometry:
+             1: (13%, 17%) -> About Me
+             2: (14.5%, 54%) -> Projects
+             3: (32.5%, 60%) -> Experience
+             4: (33.5%, 29%) -> Skills
+             5: (47.5%, 23%) -> Decorative Handle Star 1
+             6: (60.5%, 14.5%) -> Decorative Handle Star 2
+             7: (75.5%, 23.5%) -> Contact
+        -->
+        <svg viewBox="0 0 1000 500" preserveAspectRatio="none" class="absolute inset-0 h-full w-full pointer-events-none overflow-visible">
+          <defs>
+            <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- Bowl + Handle Polyline -->
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="130,85 145,270 325,300 335,145 130,85"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="335,145 475,115 605,72 755,118"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+        </svg>
+
+        <!-- STAR 1: ABOUT ME (Top-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('about')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 13%; top: 17%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open About Me page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            About Me
+          </span>
+        </button>
+
+        <!-- STAR 2: PROJECTS (Bottom-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('projects')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 14.5%; top: 54%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Projects page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 0.6s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Projects
+          </span>
+        </button>
+
+        <!-- STAR 3: EXPERIENCE (Bottom-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('experience')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 32.5%; top: 60%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Experience page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.2s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Experience
+          </span>
+        </button>
+
+        <!-- STAR 4: SKILLS (Top-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('skills')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 33.5%; top: 29%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Skills page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.8s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Skills
+          </span>
+        </button>
+
+        <!-- DECORATIVE HANDLE STAR 1 (Mid-Handle Anchor) -->
+        <div
+          style="left: 47.5%; top: 23%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- DECORATIVE HANDLE STAR 2 (Upper Arch Handle Star) -->
+        <div
+          style="left: 60.5%; top: 14.5%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- STAR 5: CONTACT (Far-Right Handle Tip Star near Reaching Hand) -->
+        <button
+          onclick="navigateTo('contact')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 75.5%; top: 23.5%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Contact page"
+        >
+          <span class="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full bg-[#ffffff]" style="animation-delay: 2.3s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Contact
+          </span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- HERO BRANDING (Bottom-Left above the grassy hill) -->
+    <div class="relative z-20 pointer-events-none px-6 sm:px-12 md:px-16 pb-16 sm:pb-24 md:pb-28 max-w-4xl">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-none drop-shadow-[0_4px_24px_rgba(9,12,30,0.45)]">
+        <span class="text-[#f7efe9]">Celine</span>
+        <span class="text-[#f0b47c] ml-1.5">Chiang</span>
+      </h1>
+      <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-xs md:text-sm font-medium tracking-[0.28em] uppercase text-[#f7efe9]/85 drop-shadow">
+        FOLLOW A STAR TO GET TO KNOW ME.
+      </p>
+    </div>
+
+    <!-- CUSTOM INLINE SVG SILHOUETTE: GRASSY HILL + WOMAN REACHING FOR THE STARS -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full overflow-hidden leading-none">
+      <svg
+        viewBox="0 0 1440 520"
+        preserveAspectRatio="xMidYMax slice"
+        class="w-full h-[290px] sm:h-[380px] md:h-[440px] lg:h-[500px] block"
+        aria-hidden="true"
+      >
+        <defs>
+          <!-- Soft Backlight Halo Behind the Silhouette -->
+          <radialGradient id="girlAura" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f6cbb0" stop-opacity="0.34" />
+            <stop offset="55%" stop-color="#b98395" stop-opacity="0.14" />
+            <stop offset="100%" stop-color="#090c1e" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Deep Silhouette Fill -->
+          <linearGradient id="silhouetteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#111024" />
+            <stop offset="100%" stop-color="#080917" />
+          </linearGradient>
+        </defs>
+
+        <!-- Radial Halo Surrounding the Figure -->
+        <circle cx="1135" cy="240" r="165" fill="url(#girlAura)" />
+
+        <!-- Silhouette of Woman / Girl Standing on Hill Crest & Reaching Upward Left -->
+        <g class="wind-sway" fill="url(#silhouetteGrad)">
+          <!-- Flowing Wind-Swept Long Hair -->
+          <path d="M 1138 148
+                   C 1165 145, 1188 168, 1205 202
+                   C 1218 228, 1236 242, 1255 247
+                   C 1240 255, 1222 252, 1211 245
+                   C 1222 263, 1234 274, 1246 279
+                   C 1228 282, 1212 273, 1202 262
+                   C 1205 282, 1209 300, 1214 313
+                   C 1197 303, 1188 288, 1183 272
+                   C 1179 292, 1174 307, 1166 318
+                   C 1166 293, 1167 265, 1160 235
+                   Z" />
+
+          <!-- Head & Tilted Profile Looking Upward Toward Constellation -->
+          <path d="M 1142 146
+                   C 1126 144, 1114 153, 1111 166
+                   C 1109 171, 1105 174, 1106 177
+                   C 1107 179, 1110 180, 1111 182
+                   C 1110 185, 1112 188, 1115 189
+                   C 1116 193, 1121 196, 1128 196
+                   L 1129 212
+                   L 1147 212
+                   L 1148 192
+                   C 1158 185, 1162 170, 1157 157
+                   C 1154 150, 1148 147, 1142 146 Z" />
+
+          <!-- Raised Left/Right Reaching Arm & Expressive Open Hand -->
+          <path d="M 1126 218
+                   L 1068 180
+                   L 1054 168
+                   C 1051 165, 1047 167, 1049 170
+                   L 1055 176
+                   L 1043 169
+                   C 1040 168, 1038 171, 1041 173
+                   L 1052 180
+                   L 1040 176
+                   C 1037 175, 1036 178, 1039 180
+                   L 1051 184
+                   L 1042 183
+                   C 1039 183, 1039 186, 1042 187
+                   L 1055 189
+                   L 1063 190
+                   L 1122 232 Z" />
+
+          <!-- Trailing Back Arm -->
+          <path d="M 1162 224
+                   L 1196 276
+                   L 1208 286
+                   C 1210 288, 1208 291, 1205 290
+                   L 1197 286
+                   L 1202 294
+                   C 1203 296, 1200 298, 1198 296
+                   L 1190 284
+                   L 1154 236 Z" />
+
+          <!-- Torso & Flowing Breeze-Blown Dress -->
+          <path d="M 1126 210
+                   L 1152 210
+                   C 1162 224, 1164 244, 1160 264
+                   C 1175 298, 1204 334, 1244 352
+                   C 1234 358, 1222 361, 1211 361
+                   C 1221 369, 1231 374, 1240 377
+                   C 1216 385, 1192 387, 1172 385
+                   C 1154 393, 1135 397, 1118 395
+                   C 1115 352, 1117 308, 1124 268
+                   C 1118 250, 1116 230, 1126 210 Z" />
+
+          <!-- Legs & Boots/Shoes Anchored on the Hill Crest -->
+          <path d="M 1128 390
+                   L 1124 445
+                   L 1106 452
+                   C 1103 453, 1104 456, 1108 456
+                   L 1134 456
+                   L 1139 392 Z" />
+          <path d="M 1146 388
+                   L 1168 446
+                   L 1152 453
+                   C 1149 454, 1150 457, 1154 457
+                   L 1181 456
+                   L 1158 386 Z" />
+        </g>
+
+        <!-- Rolling Dark Grassy Hill Horizon -->
+        <path
+          d="M 0 492
+             Q 420 486, 780 464
+             Q 1060 444, 1175 448
+             Q 1310 453, 1440 468
+             L 1440 520
+             L 0 520 Z"
+          fill="#080917"
+        />
+
+        <!-- Procedural Grass Tufts Container along the Hill Crest -->
+        <g id="hill-grass-blades" fill="#080917"></g>
+      </svg>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- SUBPAGES CONTAINER (OPENED WHEN CLICKING ANY CONSTELLATION STAR)      -->
+  <!-- ===================================================================== -->
+  <div id="subpage-shell" class="hidden min-h-screen w-full subpage-sky relative overflow-x-hidden">
+    
+    <!-- Ambient Stars on Subpages -->
+    <div id="subpage-starfield" class="fixed inset-0 z-0 pointer-events-none"></div>
+
+    <!-- Sticky Glass Constellation Navigation Bar -->
+    <nav aria-label="Portfolio Constellation Navigation" class="sticky top-0 z-30 border-b border-offwhite/10 bg-[#080b1c]/80 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-8">
+        
+        <!-- Back to Night Sky Button -->
+        <button
+          onclick="navigateTo('home')"
+          class="group inline-flex items-center gap-2 rounded-full border border-offwhite/15 bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium text-offwhite transition-all hover:border-peach/60 hover:bg-peach/15 hover:text-peach cursor-pointer"
+        >
+          <svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Night Sky</span>
+        </button>
+
+        <!-- Mini Constellation Star Switcher -->
+        <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-1">
+          <button data-nav="about" onclick="navigateTo('about')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ About Me
+          </button>
+          <button data-nav="projects" onclick="navigateTo('projects')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Projects
+          </button>
+          <button data-nav="skills" onclick="navigateTo('skills')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Skills
+          </button>
+          <button data-nav="experience" onclick="navigateTo('experience')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Experience
+          </button>
+          <button data-nav="contact" onclick="navigateTo('contact')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Contact
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Dynamic Subpage Content Mount -->
+    <div class="relative z-10 mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 1: ABOUT ME                                             -->
+      <!-- =============================================================== -->
+      <section id="page-about" class="subpage-view hidden">
+        <div class="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+          <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+          <span>Star 01 · Dubhe</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          <!-- Left Portrait / Monogram Card -->
+          <div class="lg:col-span-5">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+              <div class="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-peach/15 blur-2xl"></div>
+              <div class="mx-auto mb-5 flex h-36 w-36 items-center justify-center rounded-full border-2 border-peach/40 bg-gradient-to-br from-[#2d2e59] via-[#68557a] to-[#d48c84] shadow-[0_0_40px_rgba(232,168,124,0.25)]">
+                <span class="font-serif italic text-4xl font-semibold text-offwhite">CC</span>
+              </div>
+              <h2 class="text-2xl font-semibold text-offwhite">Celine <span class="text-peach">Chiang</span></h2>
+              <p class="mt-1 text-sm text-offwhite/70">Product Designer &amp; Creative Frontend Developer</p>
+              <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1 text-xs text-offwhite/80">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                Open to Creative &amp; Product Roles
+              </div>
+
+              <div class="mt-7 flex flex-col gap-3">
+                <button
+                  onclick="showToast('Resume PDF download started (Celine_Chiang_Resume.pdf)')"
+                  class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-5 py-3 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
+                >
+                  Download Resume (PDF)
+                </button>
+                <button
+                  onclick="navigateTo('projects')"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-5 py-3 text-sm font-medium text-offwhite transition-colors hover:border-peach/50 hover:text-peach cursor-pointer"
+                >
+                  Explore My Projects →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Editorial Bio & Philosophy -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-9">
+              <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite leading-tight">
+                Crafting digital experiences with warmth, wonder, and precision.
+              </h1>
+              <p class="mt-5 text-base leading-relaxed text-offwhite/80">
+                Hi, I’m <strong class="font-semibold text-peach">Celine Chiang</strong>. Just like connecting stars into constellations, I love turning complex ideas into intuitive, poetic digital products. My work sits at the intersection of human-centered UI/UX design and expressive frontend engineering.
+              </p>
+              <p class="mt-4 text-base leading-relaxed text-offwhite/80">
+                Over the past 4+ years, I’ve collaborated with early-stage startups and creative studios to design responsive web applications, interactive brand stories, and scalable design systems that feel effortless to use.
+              </p>
+
+              <!-- Core Values / Pillars -->
+              <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">01. Clarity</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Distilling complex workflows into calm, self-evident interfaces.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">02. Craft</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Obsessing over micro-interactions, typography, and fluid motion.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">03. Empathy</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Designing accessible experiences grounded in real user research.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 2: PROJECTS                                             -->
+      <!-- =============================================================== -->
+      <section id="page-projects" class="subpage-view hidden">
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+              <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+              <span>Star 02 · Merak</span>
+            </div>
+            <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Selected Projects</h1>
+          </div>
+
+          <!-- Category Filter Buttons -->
+          <div class="flex flex-wrap gap-2" id="project-filters">
+            <button onclick="filterProjects('all')" data-filter="all" class="filter-btn active rounded-full bg-peach text-[#090c1e] px-4 py-1.5 text-xs font-semibold transition-all cursor-pointer">All Work</button>
+            <button onclick="filterProjects('uiux')" data-filter="uiux" class="filter-btn rounded-full border border-offwhite/15 bg-white/5 text-offwhite/80 hover:border-peach/50 px-4 py-1.5 text-xs font-medium transition-all cursor-pointer">UI/UX Design</button>
+            <button onclick="filterProjects('frontend')" data-filter="frontend" class="filter-btn rounded-full border border-offwhite/15 bg-white/5 text-offwhite/80 hover:border-peach/50 px-4 py-1.5 text-xs font-medium transition-all cursor-pointer">Frontend Dev</button>
+          </div>
+        </div>
+
+        <!-- 4 Placeholder Case Studies Grid -->
+        <div id="projects-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          
+          <!-- Project 1 -->
+          <article data-category="uiux frontend" class="project-card glass-card glass-card-hover rounded-3xl overflow-hidden flex flex-col">
+            <div class="h-48 w-full bg-gradient-to-br from-[#1f234d] via-[#534675] to-[#d99482] p-6 flex flex-col justify-between relative">
+              <span class="self-start rounded-full bg-[#090c1e]/50 backdrop-blur px-3 py-1 text-[11px] font-medium text-peach">UI/UX + React</span>
+              <div class="font-serif italic text-2xl text-white drop-shadow">Astra Sky Journal</div>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">Mindful Astronomy &amp; Mood Tracker</h3>
+                <p class="mt-2 text-sm leading-relaxed text-offwhite/75">
+                  An interactive stargazing companion app that maps daily reflections onto personal constellations with ambient soundscapes.
+                </p>
+              </div>
+              <div class="mt-6 flex items-center justify-between pt-4 border-t border-offwhite/10">
+                <div class="flex gap-2 text-xs text-offwhite/60">
+                  <span>Figma</span> · <span>React</span> · <span>Tailwind</span>
+                </div>
+                <button onclick="openProjectModal('Astra Sky Journal', 'Designed the end-to-end mobile & web experience, custom SVG star charts, and interactive reflection flows. Increased daily user retention by 38% during beta testing.')" class="text-xs font-semibold text-peach hover:underline cursor-pointer">
+                  View Case Study →
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article data-category="frontend" class="project-card glass-card glass-card-hover rounded-3xl overflow-hidden flex flex-col">
+            <div class="h-48 w-full bg-gradient-to-br from-[#121938] via-[#2c4268] to-[#7aa1a6] p-6 flex flex-col justify-between">
+              <span class="self-start rounded-full bg-[#090c1e]/50 backdrop-blur px-3 py-1 text-[11px] font-medium text-peach">Frontend Architecture</span>
+              <div class="font-serif italic text-2xl text-white drop-shadow">Lumina Design System</div>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">Accessible Multi-Theme Component Library</h3>
+                <p class="mt-2 text-sm leading-relaxed text-offwhite/75">
+                  A 45+ component UI library built with WCAG AAA contrast compliance, fluid motion tokens, and automated documentation.
+                </p>
+              </div>
+              <div class="mt-6 flex items-center justify-between pt-4 border-t border-offwhite/10">
+                <div class="flex gap-2 text-xs text-offwhite/60">
+                  <span>TypeScript</span> · <span>Storybook</span> · <span>CSS</span>
+                </div>
+                <button onclick="openProjectModal('Lumina Design System', 'Architected semantic design tokens and accessible primitives used across 4 product squads, cutting UI engineering handoff time by 45%.')" class="text-xs font-semibold text-peach hover:underline cursor-pointer">
+                  View Case Study →
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article data-category="uiux" class="project-card glass-card glass-card-hover rounded-3xl overflow-hidden flex flex-col">
+            <div class="h-48 w-full bg-gradient-to-br from-[#2b1e42] via-[#6e466b] to-[#e8a87c] p-6 flex flex-col justify-between">
+              <span class="self-start rounded-full bg-[#090c1e]/50 backdrop-blur px-3 py-1 text-[11px] font-medium text-peach">Product Design</span>
+              <div class="font-serif italic text-2xl text-white drop-shadow">Solstice Tea &amp; Botanicals</div>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">Editorial E-Commerce &amp; Custom Blend Builder</h3>
+                <p class="mt-2 text-sm leading-relaxed text-offwhite/75">
+                  A sensory digital storefront featuring an interactive flavor-profile quiz and bespoke subscription packaging customizer.
+                </p>
+              </div>
+              <div class="mt-6 flex items-center justify-between pt-4 border-t border-offwhite/10">
+                <div class="flex gap-2 text-xs text-offwhite/60">
+                  <span>UX Research</span> · <span>Prototyping</span>
+                </div>
+                <button onclick="openProjectModal('Solstice Tea & Botanicals', 'Conducted 18 user interviews and redesigned the custom tea-blending funnel, boosting checkout conversion by 27%.')" class="text-xs font-semibold text-peach hover:underline cursor-pointer">
+                  View Case Study →
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article data-category="uiux frontend" class="project-card glass-card glass-card-hover rounded-3xl overflow-hidden flex flex-col">
+            <div class="h-48 w-full bg-gradient-to-br from-[#0e132b] via-[#3d3969] to-[#b57c8c] p-6 flex flex-col justify-between">
+              <span class="self-start rounded-full bg-[#090c1e]/50 backdrop-blur px-3 py-1 text-[11px] font-medium text-peach">Data Visualization</span>
+              <div class="font-serif italic text-2xl text-white drop-shadow">Nocturne Soundscapes</div>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">Generative Ambient Web Audio Canvas</h3>
+                <p class="mt-2 text-sm leading-relaxed text-offwhite/75">
+                  An interactive browser synthesizer that translates starlight coordinates into soothing harmonic chords and visual ripples.
+                </p>
+              </div>
+              <div class="mt-6 flex items-center justify-between pt-4 border-t border-offwhite/10">
+                <div class="flex gap-2 text-xs text-offwhite/60">
+                  <span>Web Audio API</span> · <span>SVG</span>
+                </div>
+                <button onclick="openProjectModal('Nocturne Soundscapes', 'Built a real-time generative audio engine paired with responsive SVG constellations that react to frequency harmonics.')" class="text-xs font-semibold text-peach hover:underline cursor-pointer">
+                  View Case Study →
+                </button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 3: SKILLS                                               -->
+      <!-- =============================================================== -->
+      <section id="page-skills" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 03 · Megrez</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Skills &amp; Craft</h1>
+          <p class="mt-2 text-sm sm:text-base text-offwhite/70">The tools, languages, and methodologies I use to bring ideas from concept to launch.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          
+          <!-- Category 1: Product & Visual Design -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-5 flex items-center justify-between">
+              <h2 class="font-serif italic text-2xl text-peach">Design</h2>
+              <span class="text-xs uppercase tracking-widest text-offwhite/50">01</span>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>UI/UX &amp; Interaction Design</span><span class="text-peach">95%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 95%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>Figma &amp; Design Systems</span><span class="text-peach">96%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 96%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>Wireframing &amp; Prototyping</span><span class="text-peach">92%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 92%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>Illustration &amp; SVG Art</span><span class="text-peach">88%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 88%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: Frontend Development -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-5 flex items-center justify-between">
+              <h2 class="font-serif italic text-2xl text-peach">Engineering</h2>
+              <span class="text-xs uppercase tracking-widest text-offwhite/50">02</span>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>HTML5, CSS3 &amp; Tailwind</span><span class="text-peach">96%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 96%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>JavaScript (ES6+) / TypeScript</span><span class="text-peach">90%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 90%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>React &amp; Next.js</span><span class="text-peach">89%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 89%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1.5"><span>GSAP &amp; CSS Animations</span><span class="text-peach">91%</span></div>
+                <div class="h-1.5 w-full rounded-full bg-white/10"><div class="h-1.5 rounded-full bg-gradient-to-r from-[#68557a] to-[#e8a87c]" style="width: 91%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Strategy & Collaboration -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-5 flex items-center justify-between">
+              <h2 class="font-serif italic text-2xl text-peach">Strategy</h2>
+              <span class="text-xs uppercase tracking-widest text-offwhite/50">03</span>
+            </div>
+            <div class="flex flex-wrap gap-2.5">
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">User Interviews</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Usability Testing</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Information Architecture</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">WCAG Accessibility</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Design Tokens</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Agile Sprints</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Git &amp; GitHub</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1.5 text-xs text-offwhite/90">Brand Storytelling</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 4: EXPERIENCE                                           -->
+      <!-- =============================================================== -->
+      <section id="page-experience" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 04 · Phecda</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Experience &amp; Journey</h1>
+          <p class="mt-2 text-sm sm:text-base text-offwhite/70">Milestones along my career path in design and frontend engineering.</p>
+        </div>
+
+        <!-- Starry Vertical Timeline -->
+        <div class="relative ml-3 sm:ml-6 border-l border-dashed border-offwhite/25 pl-7 sm:pl-10 space-y-8">
+          
+          <!-- Role 1 -->
+          <div class="relative glass-card rounded-3xl p-6 sm:p-8">
+            <span class="absolute -left-[37px] sm:-left-[49px] top-8 h-4 w-4 rounded-full bg-peach shadow-[0_0_18px_5px_rgba(232,168,124,0.85)]"></span>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">Senior Product Designer &amp; UI Engineer</h3>
+                <p class="font-serif italic text-peach">Starlight Interactive Studio</p>
+              </div>
+              <span class="self-start rounded-full border border-peach/30 bg-peach/10 px-3.5 py-1 text-xs font-medium text-peach">2024 — Present</span>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm leading-relaxed text-offwhite/80 list-disc list-inside">
+              <li>Led the redesign of flagship creative SaaS workspace, improving onboarding completion from 61% to 84%.</li>
+              <li>Built and maintained the shared React &amp; Tailwind component architecture across web and desktop platforms.</li>
+            </ul>
+          </div>
+
+          <!-- Role 2 -->
+          <div class="relative glass-card rounded-3xl p-6 sm:p-8">
+            <span class="absolute -left-[37px] sm:-left-[49px] top-8 h-4 w-4 rounded-full bg-offwhite shadow-[0_0_15px_4px_rgba(245,236,230,0.65)]"></span>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">UX/UI Designer</h3>
+                <p class="font-serif italic text-peach">Horizon Digital Labs</p>
+              </div>
+              <span class="self-start rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1 text-xs font-medium text-offwhite/75">2022 — 2024</span>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm leading-relaxed text-offwhite/80 list-disc list-inside">
+              <li>Designed responsive web applications and interactive brand narratives for 12+ consumer and wellness clients.</li>
+              <li>Facilitated weekly user testing sessions and translated qualitative insights into high-converting prototypes.</li>
+            </ul>
+          </div>
+
+          <!-- Role 3 -->
+          <div class="relative glass-card rounded-3xl p-6 sm:p-8">
+            <span class="absolute -left-[37px] sm:-left-[49px] top-8 h-4 w-4 rounded-full bg-offwhite/80 shadow-[0_0_12px_3px_rgba(245,236,230,0.45)]"></span>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 class="text-xl font-semibold text-offwhite">B.F.A. in Interaction Design &amp; Computer Science Minor</h3>
+                <p class="font-serif italic text-peach">School of Visual &amp; Digital Arts</p>
+              </div>
+              <span class="self-start rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1 text-xs font-medium text-offwhite/75">2018 — 2022</span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-offwhite/80">
+              Graduated with Honors. Thesis focused on poetic web interfaces, generative typography, and ambient storytelling.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 5: CONTACT                                              -->
+      <!-- =============================================================== -->
+      <section id="page-contact" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 05 · Alkaid</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Send a Signal</h1>
+          <p class="mt-2 text-sm sm:text-base text-offwhite/70">Whether you have a project in mind, a role to discuss, or simply want to say hello—I’d love to hear from you.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <!-- Direct Contact Info & Socials -->
+          <div class="lg:col-span-5 space-y-5">
+            <div class="glass-card rounded-3xl p-6 sm:p-7">
+              <h2 class="font-serif italic text-2xl text-offwhite">Direct Channels</h2>
+              <p class="mt-2 text-sm text-offwhite/70">Prefer email? Copy my address directly with one click.</p>
+
+              <div class="mt-5 flex items-center justify-between rounded-2xl border border-offwhite/15 bg-[#090c1e]/60 px-4 py-3">
+                <span id="email-text" class="text-sm font-medium text-peach">hello@celinechiang.design</span>
+                <button
+                  onclick="copyEmail()"
+                  class="rounded-xl bg-white/10 px-3 py-1.5 text-xs font-medium text-offwhite hover:bg-peach hover:text-[#090c1e] transition-colors cursor-pointer"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <div class="mt-6 space-y-3">
+                <a href="#contact" onclick="event.preventDefault(); showToast('Opening LinkedIn profile...')" class="flex items-center justify-between rounded-2xl border border-offwhite/10 bg-white/[0.03] px-4 py-3 text-sm text-offwhite/85 hover:border-peach/45 hover:text-peach transition-all">
+                  <span>LinkedIn</span>
+                  <span class="text-xs text-offwhite/50">/in/celine-chiang ↗</span>
+                </a>
+                <a href="#contact" onclick="event.preventDefault(); showToast('Opening GitHub profile...')" class="flex items-center justify-between rounded-2xl border border-offwhite/10 bg-white/[0.03] px-4 py-3 text-sm text-offwhite/85 hover:border-peach/45 hover:text-peach transition-all">
+                  <span>GitHub</span>
+                  <span class="text-xs text-offwhite/50">@celinechiang ↗</span>
+                </a>
+                <a href="#contact" onclick="event.preventDefault(); showToast('Opening Dribbble portfolio...')" class="flex items-center justify-between rounded-2xl border border-offwhite/10 bg-white/[0.03] px-4 py-3 text-sm text-offwhite/85 hover:border-peach/45 hover:text-peach transition-all">
+                  <span>Dribbble / Read.cv</span>
+                  <span class="text-xs text-offwhite/50">@celine.design ↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Message Form -->
+          <div class="lg:col-span-7">
+            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+              <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="sender-name" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70 mb-2">Your Name</label>
+                  <input
+                    id="sender-name"
+                    type="text"
+                    required
+                    placeholder="Ada Lovelace"
+                    class="w-full rounded-2xl border border-offwhite/15 bg-[#090c1e]/60 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label for="sender-email" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70 mb-2">Your Email</label>
+                  <input
+                    id="sender-email"
+                    type="email"
+                    required
+                    placeholder="ada@example.com"
+                    class="w-full rounded-2xl border border-offwhite/15 bg-[#090c1e]/60 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="sender-subject" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70 mb-2">Topic</label>
+                <select
+                  id="sender-subject"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-[#090c1e]/80 px-4 py-3 text-sm text-offwhite focus:border-peach focus:outline-none"
+                >
+                  <option value="project">Project Collaboration</option>
+                  <option value="role">Full-Time / Freelance Role</option>
+                  <option value="hello">Just Saying Hello</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="sender-message" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70 mb-2">Message</label>
+                <textarea
+                  id="sender-message"
+                  rows="4"
+                  required
+                  placeholder="Tell me about your idea, timeline, or favorite constellation..."
+                  class="w-full rounded-2xl border border-offwhite/15 bg-[#090c1e]/60 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-6 py-3.5 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              >
+                Send Message Across the Sky ✦
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Case Study Preview Modal -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#080b1c]/80 backdrop-blur-md p-4">
+    <div class="glass-card max-w-lg w-full rounded-3xl p-6 sm:p-8 border border-peach/30 relative animate-[pageFadeIn_0.3s_ease]">
+      <button onclick="closeProjectModal()" class="absolute top-5 right-5 rounded-full bg-white/10 p-2 text-offwhite/70 hover:text-peach cursor-pointer" aria-label="Close modal">
+        ✕
+      </button>
+      <span class="text-xs uppercase tracking-widest text-peach">Case Study Highlight</span>
+      <h3 id="modal-project-title" class="mt-2 font-serif italic text-2xl sm:text-3xl text-offwhite">Project Title</h3>
+      <p id="modal-project-desc" class="mt-4 text-sm leading-relaxed text-offwhite/80">Project details go here.</p>
+      <div class="mt-6 flex justify-end gap-3">
+        <button onclick="closeProjectModal()" class="rounded-2xl border border-offwhite/15 px-4 py-2 text-xs font-medium text-offwhite hover:border-peach/50 cursor-pointer">Close</button>
+        <button onclick="closeProjectModal(); showToast('Opening live interactive demo...')" class="rounded-2xl bg-peach px-5 py-2 text-xs font-semibold text-[#090c1e] cursor-pointer">Launch Live Demo ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: STARFIELD, GRASS BLADES, ROUTING & INTERACTIONS           -->
+  <!-- ===================================================================== -->
+  <script>
+    const PAGE_LABELS = {
+      home: 'Returning to the Night Sky...',
+      about: 'Following Dubhe to About Me...',
+      projects: 'Following Merak to Projects...',
+      skills: 'Following Megrez to Skills...',
+      experience: 'Following Phecda to Experience...',
+      contact: 'Following Alkaid to Contact...'
+    };
+
+    /**
+     * Generate realistic twinkling stars for both the landing sky and subpages
+     */
+    function populateStarfield(containerId, count, maxTopPercent) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('span');
+        star.className = 'bg-star';
+        const size = Math.random() < 0.8 ? (Math.random() * 1.8 + 1) : (Math.random() * 2.5 + 2);
+        const left = Math.random() * 100;
+        const top = Math.random() * maxTopPercent;
+        const dur = (Math.random() * 3.5 + 2.5).toFixed(2);
+        const delay = (Math.random() * 4).toFixed(2);
+        const minOp = (Math.random() * 0.25 + 0.1).toFixed(2);
+        const maxOp = (Math.random() * 0.45 + 0.5).toFixed(2);
+
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}%`;
+        star.style.top = `${top}%`;
+        star.style.setProperty('--dur', `${dur}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+        star.style.setProperty('--min-op', minOp);
+        star.style.setProperty('--max-op', maxOp);
+
+        container.appendChild(star);
+      }
+    }
+
+    /**
+     * Generate delicate silhouette blades of grass along the SVG rolling hillside crest
+     */
+    function populateHillGrass() {
+      const grassGroup = document.getElementById('hill-grass-blades');
+      if (!grassGroup) return;
+
+      let paths = '';
+      // Sample X from 0 to 1440 every 7px
+      for (let x = 2; x < 1440; x += 6.5) {
+        // Approximate Y along the hill curve
+        let y;
+        if (x < 780) {
+          const t = x / 780;
+          y = 492 - (28 * Math.pow(t, 1.35));
+        } else if (x < 1175) {
+          const t = (x - 780) / (1175 - 780);
+          y = 464 - (16 * Math.sin(t * Math.PI * 0.65));
+        } else {
+          const t = (x - 1175) / (1440 - 1175);
+          y = 448 + (20 * Math.pow(t, 1.2));
+        }
+
+        const bladeHeight = 5 + Math.random() * 9;
+        const lean = (Math.random() - 0.35) * 6;
+        paths += `M ${x.toFixed(1)} ${(y + 3).toFixed(1)} L ${(x + lean).toFixed(1)} ${(y - bladeHeight).toFixed(1)} L ${(x + 2.2).toFixed(1)} ${(y + 3).toFixed(1)} Z `;
+      }
+
+      const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pathEl.setAttribute('d', paths);
+      grassGroup.appendChild(pathEl);
+    }
+
+    /**
+     * Highlight constellation dotted lines on star hover
+     */
+    function highlightConstellation(active) {
+      const wrapper = document.getElementById('constellation-wrapper');
+      if (!wrapper) return;
+      if (active) {
+        wrapper.classList.add('constellation-active');
+      } else {
+        wrapper.classList.remove('constellation-active');
+      }
+    }
+
+    /**
+     * Smooth Starlight Page Transition & Routing
+     */
+    function navigateTo(pageKey, pushHistory = true) {
+      const validPages = ['home', 'about', 'projects', 'skills', 'experience', 'contact'];
+      const target = validPages.includes(pageKey) ? pageKey : 'home';
+
+      const veil = document.getElementById('transition-veil');
+      const label = document.getElementById('transition-label');
+      label.textContent = PAGE_LABELS[target] || 'Navigating...';
+
+      veil.classList.add('active');
+
+      setTimeout(() => {
+        renderPage(target);
+        if (pushHistory) {
+          window.location.hash = target === 'home' ? '' : target;
+        }
+        window.scrollTo({ top: 0, behavior: 'instant' });
+
+        setTimeout(() => {
+          veil.classList.remove('active');
+        }, 180);
+      }, 320);
+    }
+
+    /**
+     * Render either the Landing Night Sky or the selected Subpage
+     */
+    function renderPage(target) {
+      const homeView = document.getElementById('view-home');
+      const subpageShell = document.getElementById('subpage-shell');
+      const subpageViews = document.querySelectorAll('.subpage-view');
+      const navPills = document.querySelectorAll('.sub-nav-pill');
+
+      if (target === 'home') {
+        subpageShell.classList.add('hidden');
+        homeView.classList.remove('hidden');
+        homeView.classList.add('view-enter');
+      } else {
+        homeView.classList.add('hidden');
+        subpageShell.classList.remove('hidden');
+
+        subpageViews.forEach(view => {
+          view.classList.add('hidden');
+          view.classList.remove('view-enter');
+        });
+
+        const activeSection = document.getElementById(`page-${target}`);
+        if (activeSection) {
+          activeSection.classList.remove('hidden');
+          activeSection.classList.add('view-enter');
+        }
+
+        // Update active state on top constellation mini-nav
+        navPills.forEach(pill => {
+          if (pill.dataset.nav === target) {
+            pill.classList.add('bg-peach', 'text-[#090c1e]', 'font-semibold', 'shadow-[0_0_16px_rgba(232,168,124,0.45)]');
+            pill.classList.remove('text-offwhite/75', 'hover:text-peach', 'hover:bg-white/5');
+          } else {
+            pill.classList.remove('bg-peach', 'text-[#090c1e]', 'font-semibold', 'shadow-[0_0_16px_rgba(232,168,124,0.45)]');
+            pill.classList.add('text-offwhite/75', 'hover:text-peach', 'hover:bg-white/5');
+          }
+        });
+      }
+    }
+
+    /**
+     * Filter Projects by Category
+     */
+    function filterProjects(category) {
+      const cards = document.querySelectorAll('.project-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => {
+        if (btn.dataset.filter === category) {
+          btn.classList.add('bg-peach', 'text-[#090c1e]', 'font-semibold');
+          btn.classList.remove('border', 'border-offwhite/15', 'bg-white/5', 'text-offwhite/80');
+        } else {
+          btn.classList.remove('bg-peach', 'text-[#090c1e]', 'font-semibold');
+          btn.classList.add('border', 'border-offwhite/15', 'bg-white/5', 'text-offwhite/80');
+        }
+      });
+
+      cards.forEach(card => {
+        const cats = card.dataset.category || '';
+        if (category === 'all' || cats.includes(category)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    /**
+     * Case Study Modal Controls
+     */
+    function openProjectModal(title, description) {
+      document.getElementById('modal-project-title').textContent = title;
+      document.getElementById('modal-project-desc').textContent = description;
+      const modal = document.getElementById('project-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProjectModal() {
+      const modal = document.getElementById('project-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    /**
+     * Copy Email Address (Safe clipboard fallback for iframes)
+     */
+    function copyEmail() {
+      const email = document.getElementById('email-text').textContent;
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast('Copied hello@celinechiang.design to clipboard!');
+      } catch (err) {
+        showToast('Email: hello@celinechiang.design');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    /**
+     * Contact Form Submission Handler
+     */
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('sender-name').value.trim();
+      showToast(`Thank you, ${name || 'friend'}! Your message has been sent.`);
+      event.target.reset();
+    }
+
+    /**
+     * Custom Non-Blocking Toast Notification
+     */
+    let toastTimeout;
+    function showToast(message) {
+      const box = document.getElementById('toast-box');
+      const msg = document.getElementById('toast-message');
+      msg.textContent = message;
+
+      box.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        box.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        box.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => box.classList.add('hidden'), 300);
+      }, 3400);
+    }
+
+    // Initialize on Window Load & Listen for Browser Back/Forward Hash Changes
+    window.addEventListener('DOMContentLoaded', () => {
+      populateStarfield('home-starfield', 85, 76);
+      populateStarfield('subpage-starfield', 55, 95);
+      populateHillGrass();
+
+      const initialHash = window.location.hash.replace('#', '');
+      if (initialHash && PAGE_LABELS[initialHash]) {
+        renderPage(initialHash);
+      } else {
+        renderPage('home');
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hashTarget = window.location.hash.replace('#', '') || 'home';
+      renderPage(hashTarget);
+    });
+  </script>
+</body>
+</html>
