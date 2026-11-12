@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celine Chiang — Personal Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Lora (italic serif for stars & headings) + Inter / Plus Jakarta Sans (clean UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            serif: ['Lora', 'Georgia', 'serif'],
+          },
+          colors: {
+            midnight: '#090c1e',
+            twilight: '#1e2144',
+            dusk: '#4b4875',
+            peach: '#e8a87c',
+            offwhite: '#f5ece6',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom Animations & Atmospheric Effects */
+    :root {
+      --sky-top: #090c1e;
+      --sky-upper: #171b3a;
+      --sky-mid: #3b3a66;
+      --sky-lower: #7b6082;
+      --sky-horizon-1: #d48c84;
+      --sky-horizon-2: #f2be9f;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background-color: #090c1e;
+      color: #f5ece6;
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Full Twilight Gradient */
+    .twilight-sky {
+      background: linear-gradient(
+        180deg,
+        #080b1c 0%,
+        #131736 24%,
+        #2d2e59 48%,
+        #68557a 70%,
+        #c58482 86%,
+        #f2be9f 100%
+      );
+    }
+
+    /* Subpage Deep Night Sky Background */
+    .subpage-sky {
+      background: radial-gradient(circle at 80% 15%, rgba(104, 85, 122, 0.28) 0%, transparent 45%),
+                  radial-gradient(circle at 15% 85%, rgba(232, 168, 124, 0.14) 0%, transparent 50%),
+                  linear-gradient(180deg, #080b1c 0%, #111530 55%, #1d1f42 100%);
+    }
+
+    /* Background Twinkling Stars */
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min-op, 0.25); transform: scale(0.9); }
+      50% { opacity: var(--max-op, 0.95); transform: scale(1.15); }
+    }
+
+    .bg-star {
+      position: absolute;
+      border-radius: 9999px;
+      background-color: #fffaf0;
+      pointer-events: none;
+      animation: twinkle var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    /* Shooting Star Keyframes */
+    @keyframes shoot {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(-28deg) scaleX(0.3);
+      }
+      12% {
+        opacity: 1;
+        transform: translate3d(-60px, 32px, 0) rotate(-28deg) scaleX(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(-420px, 225px, 0) rotate(-28deg) scaleX(0.2);
+      }
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 130px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(255, 250, 240, 0.95), rgba(242, 190, 159, 0.35), transparent);
+      border-radius: 9999px;
+      filter: drop-shadow(0 0 6px rgba(255, 250, 240, 0.85));
+      animation: shoot 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Interactive Constellation Star Glow */
+    @keyframes starPulse {
+      0%, 100% {
+        box-shadow: 0 0 14px 4px rgba(255, 250, 235, 0.75),
+                    0 0 34px 12px rgba(255, 236, 200, 0.35),
+                    0 0 60px 22px rgba(232, 168, 124, 0.16);
+      }
+      50% {
+        box-shadow: 0 0 18px 6px rgba(255, 252, 240, 0.95),
+                    0 0 44px 16px rgba(255, 236, 200, 0.5),
+                    0 0 75px 28px rgba(232, 168, 124, 0.25);
+      }
+    }
+
+    .star-node-core {
+      animation: starPulse 3.6s ease-in-out infinite;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+    }
+
+    .star-trigger:hover .star-node-core,
+    .star-trigger:focus-visible .star-node-core {
+      transform: scale(1.42);
+      background-color: #ffffff;
+      box-shadow: 0 0 22px 8px rgba(255, 255, 255, 1),
+                  0 0 55px 22px rgba(242, 190, 159, 0.7),
+                  0 0 90px 35px rgba(232, 168, 124, 0.4);
+    }
+
+    .star-trigger:hover .star-label,
+    .star-trigger:focus-visible .star-label {
+      color: #f8d0b0;
+      transform: translateY(3px) scale(1.06);
+      text-shadow: 0 0 18px rgba(242, 190, 159, 0.85);
+    }
+
+    .star-label {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 2px 12px rgba(9, 12, 30, 0.85);
+    }
+
+    /* Subtle Dash Flow on Constellation Lines when hovered */
+    @keyframes dashFlow {
+      to {
+        stroke-dashoffset: -24;
+      }
+    }
+
+    .constellation-active .constellation-line {
+      stroke: rgba(255, 248, 235, 0.85);
+      animation: dashFlow 1.8s linear infinite;
+    }
+
+    /* Gentle Hair & Dress Breeze Sway */
+    @keyframes breezeSway {
+      0%, 100% { transform: rotate(0deg) translateX(0px); }
+      50% { transform: rotate(1.4deg) translateX(2px); }
+    }
+
+    .wind-sway {
+      transform-origin: 79% 68%;
+      animation: breezeSway 5.5s ease-in-out infinite;
+    }
+
+    /* Starlight Warp / Page Transition Overlay */
+    #transition-veil {
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #transition-veil.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Page View Fade-Up Entrance */
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-enter {
+      animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Glassmorphism Cards for Subpages */
+    .glass-card {
+      background: rgba(20, 24, 52, 0.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245, 236, 230, 0.12);
+      box-shadow: 0 18px 40px -15px rgba(4, 6, 18, 0.7);
+    }
+
+    .glass-card-hover {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-4px);
+      border-color: rgba(232, 168, 124, 0.42);
+      box-shadow: 0 22px 45px -12px rgba(232, 168, 124, 0.14);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080b1c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2f335c;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e8a87c;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-peach/30 selection:text-offwhite">
+
+  <!-- Starlight Burst Transition Overlay -->
+  <div id="transition-veil" class="fixed inset-0 z-50 flex items-center justify-center bg-[#080b1c]/95 backdrop-blur-md">
+    <div class="text-center">
+      <div class="mx-auto mb-3 h-3 w-3 rounded-full bg-white shadow-[0_0_35px_14px_rgba(242,190,159,0.9)] animate-ping"></div>
+      <p id="transition-label" class="font-serif italic text-lg tracking-wide text-peach/90">Following star...</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 hidden transform transition-all duration-300 translate-y-4 opacity-0">
+    <div class="glass-card flex items-center gap-3 rounded-2xl border border-peach/40 px-5 py-3.5 text-sm text-offwhite shadow-2xl">
+      <span class="h-2.5 w-2.5 rounded-full bg-peach shadow-[0_0_10px_#e8a87c]"></span>
+      <span id="toast-message">Action completed</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: HERO LANDING PAGE (NIGHT SKY + BIG DIPPER + SILHOUETTE)       -->
+  <!-- ===================================================================== -->
+  <main id="view-home" class="relative min-h-screen w-full overflow-hidden twilight-sky flex flex-col justify-between select-none">
+    
+    <!-- Procedural Twinkling Starfield Layer -->
+    <div id="home-starfield" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Subtle Shooting Star Canvas Effect -->
+    <div id="shooting-star-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Top Header -->
+    <header class="relative z-20 flex items-center justify-between px-6 pt-5 sm:px-10 sm:pt-7">
+      <div class="flex items-center gap-2 text-xs tracking-[0.22em] uppercase text-offwhite/55">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-peach/80"></span>
+        <span>Interactive Constellation</span>
+      </div>
+      <nav aria-label="Quick Star Links" class="hidden md:flex items-center gap-5 text-xs tracking-wider text-offwhite/65">
+        <button onclick="navigateTo('about')" class="hover:text-peach transition-colors cursor-pointer">About Me</button>
+        <button onclick="navigateTo('projects')" class="hover:text-peach transition-colors cursor-pointer">Projects</button>
+        <button onclick="navigateTo('skills')" class="hover:text-peach transition-colors cursor-pointer">Skills</button>
+        <button onclick="navigateTo('experience')" class="hover:text-peach transition-colors cursor-pointer">Experience</button>
+        <button onclick="navigateTo('contact')" class="hover:text-peach transition-colors cursor-pointer">Contact</button>
+      </nav>
+    </header>
+
+    <!-- INTERACTIVE BIG DIPPER CONSTELLATION STAGE -->
+    <section aria-label="Constellation Navigation" class="relative z-20 mx-auto w-full max-w-6xl flex-1 flex items-center justify-center px-3 sm:px-8 pt-2 pb-28 sm:pb-36">
+      <div id="constellation-wrapper" class="relative w-full max-w-[920px] aspect-[16/9] sm:aspect-[16/8.2] min-h-[290px] sm:min-h-[340px]">
+        
+        <!-- SVG Dotted Constellation Lines Connecting the 7 Stars of the Big Dipper -->
+        <svg viewBox="0 0 1000 500" preserveAspectRatio="none" class="absolute inset-0 h-full w-full pointer-events-none overflow-visible">
+          <defs>
+            <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- Bowl + Handle Polyline -->
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="130,85 145,270 325,300 335,145 130,85"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="335,145 475,115 605,72 755,118"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+        </svg>
+
+        <!-- STAR 1: ABOUT ME (Top-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('about')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 13%; top: 17%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open About Me page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            About Me
+          </span>
+        </button>
+
+        <!-- STAR 2: PROJECTS (Bottom-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('projects')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 14.5%; top: 54%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Projects page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 0.6s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Projects
+          </span>
+        </button>
+
+        <!-- STAR 3: EXPERIENCE (Bottom-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('experience')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 32.5%; top: 60%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Experience page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.2s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Experience
+          </span>
+        </button>
+
+        <!-- STAR 4: SKILLS (Top-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('skills')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 33.5%; top: 29%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Skills page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.8s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Skills
+          </span>
+        </button>
+
+        <!-- DECORATIVE HANDLE STAR 1 (Mid-Handle Anchor) -->
+        <div
+          style="left: 47.5%; top: 23%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- DECORATIVE HANDLE STAR 2 (Upper Arch Handle Star) -->
+        <div
+          style="left: 60.5%; top: 14.5%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- STAR 5: CONTACT (Far-Right Handle Tip Star near Reaching Hand) -->
+        <button
+          onclick="navigateTo('contact')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 75.5%; top: 23.5%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Contact page"
+        >
+          <span class="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full bg-[#ffffff]" style="animation-delay: 2.3s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Contact
+          </span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- HERO BRANDING (Bottom-Left above the grassy hill) -->
+    <div class="relative z-20 pointer-events-none px-6 sm:px-12 md:px-16 pb-16 sm:pb-24 md:pb-28 max-w-4xl">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-none drop-shadow-[0_4px_24px_rgba(9,12,30,0.45)]">
+        <span class="text-[#f7efe9]">Celine</span>
+        <span class="text-[#f0b47c] ml-1.5">Chiang</span>
+      </h1>
+      <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-xs md:text-sm font-medium tracking-[0.28em] uppercase text-[#f7efe9]/85 drop-shadow">
+        FOLLOW A STAR TO GET TO KNOW ME.
+      </p>
+    </div>
+
+    <!-- CUSTOM INLINE SVG SILHOUETTE: GRASSY HILL + WOMAN REACHING FOR THE STARS -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full overflow-hidden leading-none">
+      <svg
+        viewBox="0 0 1440 520"
+        preserveAspectRatio="xMidYMax slice"
+        class="w-full h-[290px] sm:h-[380px] md:h-[440px] lg:h-[500px] block"
+        aria-hidden="true"
+      >
+        <defs>
+          <!-- Soft Backlight Halo Behind the Silhouette -->
+          <radialGradient id="girlAura" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f6cbb0" stop-opacity="0.34" />
+            <stop offset="55%" stop-color="#b98395" stop-opacity="0.14" />
+            <stop offset="100%" stop-color="#090c1e" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Deep Silhouette Fill -->
+          <linearGradient id="silhouetteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#111024" />
+            <stop offset="100%" stop-color="#080917" />
+          </linearGradient>
+        </defs>
+
+        <!-- Radial Halo Surrounding the Figure -->
+        <circle cx="1135" cy="240" r="165" fill="url(#girlAura)" />
+
+        <!-- Silhouette of Woman / Girl Standing on Hill Crest & Reaching Upward Left -->
+        <g class="wind-sway" fill="url(#silhouetteGrad)">
+          <!-- Flowing Wind-Swept Long Hair -->
+          <path d="M 1138 148
+                   C 1165 145, 1188 168, 1205 202
+                   C 1218 228, 1236 242, 1255 247
+                   C 1240 255, 1222 252, 1211 245
+                   C 1222 263, 1234 274, 1246 279
+                   C 1228 282, 1212 273, 1202 262
+                   C 1205 282, 1209 300, 1214 313
+                   C 1197 303, 1188 288, 1183 272
+                   C 1179 292, 1174 307, 1166 318
+                   C 1166 293, 1167 265, 1160 235
+                   Z" />
+
+          <!-- Head & Tilted Profile Looking Upward Toward Constellation -->
+          <path d="M 1142 146
+                   C 1126 144, 1114 153, 1111 166
+                   C 1109 171, 1105 174, 1106 177
+                   C 1107 179, 1110 180, 1111 182
+                   C 1110 185, 1112 188, 1115 189
+                   C 1116 193, 1121 196, 1128 196
+                   L 1129 212
+                   L 1147 212
+                   L 1148 192
+                   C 1158 185, 1162 170, 1157 157
+                   C 1154 150, 1148 147, 1142 146 Z" />
+
+          <!-- Raised Reaching Arm & Expressive Open Hand -->
+          <path d="M 1126 218
+                   L 1068 180
+                   L 1054 168
+                   C 1051 165, 1047 167, 1049 170
+                   L 1055 176
+                   L 1043 169
+                   C 1040 168, 1038 171, 1041 173
+                   L 1052 180
+                   L 1040 176
+                   C 1037 175, 1036 178, 1039 180
+                   L 1051 184
+                   L 1042 183
+                   C 1039 183, 1039 186, 1042 187
+                   L 1055 189
+                   L 1063 190
+                   L 1122 232 Z" />
+
+          <!-- Trailing Back Arm -->
+          <path d="M 1162 224
+                   L 1196 276
+                   L 1208 286
+                   C 1210 288, 1208 291, 1205 290
+                   L 1197 286
+                   L 1202 294
+                   C 1203 296, 1200 298, 1198 296
+                   L 1190 284
+                   L 1154 236 Z" />
+
+          <!-- Torso & Flowing Breeze-Blown Dress -->
+          <path d="M 1126 210
+                   L 1152 210
+                   C 1162 224, 1164 244, 1160 264
+                   C 1175 298, 1204 334, 1244 352
+                   C 1234 358, 1222 361, 1211 361
+                   C 1221 369, 1231 374, 1240 377
+                   C 1216 385, 1192 387, 1172 385
+                   C 1154 393, 1135 397, 1118 395
+                   C 1115 352, 1117 308, 1124 268
+                   C 1118 250, 1116 230, 1126 210 Z" />
+
+          <!-- Legs & Boots/Shoes Anchored on the Hill Crest -->
+          <path d="M 1128 390
+                   L 1124 445
+                   L 1106 452
+                   C 1103 453, 1104 456, 1108 456
+                   L 1134 456
+                   L 1139 392 Z" />
+          <path d="M 1146 388
+                   L 1168 446
+                   L 1152 453
+                   C 1149 454, 1150 457, 1154 457
+                   L 1181 456
+                   L 1158 386 Z" />
+        </g>
+
+        <!-- Rolling Dark Grassy Hill Horizon -->
+        <path
+          d="M 0 492
+             Q 420 486, 780 464
+             Q 1060 444, 1175 448
+             Q 1310 453, 1440 468
+             L 1440 520
+             L 0 520 Z"
+          fill="#080917"
+        />
+
+        <!-- Procedural Grass Tufts Container along the Hill Crest -->
+        <g id="hill-grass-blades" fill="#080917"></g>
+      </svg>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- SUBPAGES CONTAINER (OPENED WHEN CLICKING ANY CONSTELLATION STAR)      -->
+  <!-- ===================================================================== -->
+  <div id="subpage-shell" class="hidden min-h-screen w-full subpage-sky relative overflow-x-hidden">
+    
+    <!-- Ambient Stars on Subpages -->
+    <div id="subpage-starfield" class="fixed inset-0 z-0 pointer-events-none"></div>
+
+    <!-- Sticky Glass Constellation Navigation Bar -->
+    <nav aria-label="Portfolio Constellation Navigation" class="sticky top-0 z-30 border-b border-offwhite/10 bg-[#080b1c]/80 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-8">
+        
+        <!-- Back to Night Sky Button -->
+        <button
+          onclick="navigateTo('home')"
+          class="group inline-flex items-center gap-2 rounded-full border border-offwhite/15 bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium text-offwhite transition-all hover:border-peach/60 hover:bg-peach/15 hover:text-peach cursor-pointer"
+        >
+          <svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Night Sky</span>
+        </button>
+
+        <!-- Mini Constellation Star Switcher -->
+        <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-1">
+          <button data-nav="about" onclick="navigateTo('about')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ About Me
+          </button>
+          <button data-nav="projects" onclick="navigateTo('projects')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Projects
+          </button>
+          <button data-nav="skills" onclick="navigateTo('skills')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Skills
+          </button>
+          <button data-nav="experience" onclick="navigateTo('experience')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Experience
+          </button>
+          <button data-nav="contact" onclick="navigateTo('contact')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Contact
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Dynamic Subpage Content Mount -->
+    <div class="relative z-10 mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 1: ABOUT ME                                             -->
+      <!-- =============================================================== -->
+      <section id="page-about" class="subpage-view hidden">
+        <div class="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+          <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+          <span>Star 01 · Dubhe</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          <!-- Left Portrait / Monogram Card -->
+          <div class="lg:col-span-5">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+              <div class="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-peach/15 blur-2xl"></div>
+              <div class="mx-auto mb-5 flex h-36 w-36 items-center justify-center rounded-full border-2 border-peach/40 bg-gradient-to-br from-[#2d2e59] via-[#68557a] to-[#d48c84] shadow-[0_0_40px_rgba(232,168,124,0.25)]">
+                <span class="font-serif italic text-4xl font-semibold text-offwhite">CC</span>
+              </div>
+              <h2 class="text-2xl font-semibold text-offwhite">Celine <span class="text-peach">Chiang</span></h2>
+              <p class="mt-1 text-sm text-offwhite/70">Product Designer &amp; Creative Frontend Developer</p>
+              <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1 text-xs text-offwhite/80">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                Open to Creative &amp; Product Roles
+              </div>
+
+              <div class="mt-7 flex flex-col gap-3">
+                <button
+                  onclick="showToast('Resume PDF download started (Celine_Chiang_Resume.pdf)')"
+                  class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-5 py-3 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
+                >
+                  Download Resume (PDF)
+                </button>
+                <button
+                  onclick="navigateTo('projects')"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-5 py-3 text-sm font-medium text-offwhite transition-colors hover:border-peach/50 hover:text-peach cursor-pointer"
+                >
+                  Explore My Projects →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Editorial Bio & Philosophy -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-9">
+              <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite leading-tight">
+                Crafting digital experiences with warmth, wonder, and precision.
+              </h1>
+              <p class="mt-5 text-base leading-relaxed text-offwhite/80">
+                Hi, I’m <strong class="font-semibold text-peach">Celine Chiang</strong>. Just like connecting stars into constellations, I love turning complex ideas into intuitive, poetic digital products. My work sits at the intersection of human-centered UI/UX design and expressive frontend engineering.
+              </p>
+              <p class="mt-4 text-base leading-relaxed text-offwhite/80">
+                Over the past 4+ years, I’ve collaborated with early-stage startups and creative studios to design responsive web applications, interactive brand stories, and scalable design systems that feel effortless to use.
+              </p>
+
+              <!-- Core Values / Pillars -->
+              <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">01. Clarity</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Distilling complex workflows into calm, self-evident interfaces.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">02. Craft</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Obsessing over micro-interactions, typography, and fluid motion.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">03. Empathy</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Designing accessible experiences grounded in real user research.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 2: PROJECTS (LIVE PUBLIC @wfuhumanities PREVIEW)        -->
+      <!-- =============================================================== -->
+      <section id="page-projects" class="subpage-view hidden">
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+              <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+              <span>Star 02 · Merak</span>
+            </div>
+            <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Wake Forest Humanities Institute</h1>
+            <p class="mt-1.5 text-sm text-offwhite/75">
+              Live public Instagram profile showcase for <span class="font-medium text-peach">@wfuhumanities</span>
+            </p>
+          </div>
+
+          <a
+            href="https://www.instagram.com/wfuhumanities/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-5 py-2.5 text-xs sm:text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.02] active:scale-[0.99]"
+          >
+            <span>Open @wfuhumanities on Instagram ↗</span>
+          </a>
+        </div>
+
+        <!-- Browser Frame Preview of https://www.instagram.com/wfuhumanities/ -->
+        <div class="glass-card overflow-hidden rounded-3xl border border-offwhite/15 shadow-2xl">
+          <!-- Browser Top Chrome Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-offwhite/10 bg-[#0c1026]/90 px-4 py-3 sm:px-6">
+            <div class="flex items-center gap-2">
+              <span class="h-3 w-3 rounded-full bg-[#ff5f57]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#febc2e]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#28c840]"></span>
+            </div>
+
+            <div class="flex flex-1 max-w-xl items-center justify-between gap-2 rounded-xl border border-offwhite/10 bg-[#080b1c]/90 px-3.5 py-1.5 text-xs text-offwhite/80">
+              <div class="flex items-center gap-2 truncate">
+                <svg class="h-3.5 w-3.5 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                </svg>
+                <span class="truncate font-mono text-[11px] sm:text-xs">https://www.instagram.com/wfuhumanities/</span>
+              </div>
+              <a
+                href="https://www.instagram.com/wfuhumanities/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 text-[11px] font-medium text-peach hover:underline"
+              >
+                Visit ↗
+              </a>
+            </div>
+
+            <span class="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1 text-[11px] text-offwhite/65">
+              <span class="h-1.5 w-1.5 rounded-full bg-peach"></span>
+              Public Profile
+            </span>
+          </div>
+
+          <!-- Live Iframe Viewport -->
+          <div class="relative w-full bg-white">
+            <iframe
+              id="ig-profile-iframe"
+              src="https://www.instagram.com/wfuhumanities/"
+              title="Wake Forest Humanities Institute (@wfuhumanities) Instagram Profile"
+              class="h-[620px] sm:h-[720px] w-full border-0 block"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <!-- Helpful Cross-Origin Fallback Notice Footer -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-offwhite/10 bg-[#0c1026]/90 px-4 py-3.5 sm:px-6 text-xs text-offwhite/75">
+            <p class="leading-relaxed">
+              <strong class="text-offwhite">Note:</strong> If your browser blocks cross-origin embedding of <code class="rounded bg-white/10 px-1.5 py-0.5 text-peach">instagram.com</code> due to Instagram’s <code class="rounded bg-white/10 px-1.5 py-0.5 text-offwhite/90">X-Frame-Options</code> security policy, use the direct link to view the full profile.
+            </p>
+            <a
+              href="https://www.instagram.com/wfuhumanities/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-peach/40 bg-peach/15 px-4 py-2 font-semibold text-peach transition-colors hover:bg-peach hover:text-[#090c1e]"
+            >
+              <span>Open https://www.instagram.com/wfuhumanities/ ↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 3: SKILLS                                               -->
+      <!-- =============================================================== -->
+      <section id="page-skills" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 03 · Megrez</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Skills &amp; Constellations of Craft</h1>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <!-- Pillar 1: Design -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-peach/15 text-peach">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </div>
+            <h2 class="font-serif italic text-2xl text-offwhite">Product &amp; Visual Design</h2>
+            <p class="mt-2 text-xs leading-relaxed text-offwhite/70">End-to-end user experience architecture, editorial typography, and interactive prototyping.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Figma</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Design Systems</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">UI/UX Prototyping</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Wireframing</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Brand Identity</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Adobe Creative Suite</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Frontend -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-peach/15 text-peach">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h2 class="font-serif italic text-2xl text-offwhite">Frontend Engineering</h2>
+            <p class="mt-2 text-xs leading-relaxed text-offwhite/70">Translating bespoke visual designs into fast, responsive, and accessible web applications.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">HTML5 &amp; Semantic Markup</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Tailwind CSS</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">JavaScript (ES6+)</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">React &amp; Next.js</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">TypeScript</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">SVG &amp; Motion UI</span>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Strategy & Research -->
+          <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-peach/15 text-peach">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <h2 class="font-serif italic text-2xl text-offwhite">Research &amp; Strategy</h2>
+            <p class="mt-2 text-xs leading-relaxed text-offwhite/70">Validating product decisions through user interviews, usability testing, and analytics.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">User Interviews</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Usability Testing</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Information Architecture</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">WCAG Accessibility</span>
+              <span class="rounded-full border border-offwhite/15 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Agile Collaboration</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 4: EXPERIENCE                                           -->
+      <!-- =============================================================== -->
+      <section id="page-experience" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 04 · Phecda</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Experience &amp; Journey</h1>
+        </div>
+
+        <div class="relative space-y-6 before:absolute before:left-4 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-peach before:via-offwhite/25 before:to-transparent sm:before:left-6">
+          
+          <!-- Timeline Item 1 -->
+          <div class="relative pl-11 sm:pl-16">
+            <span class="absolute left-2.5 top-6 h-3 w-3 rounded-full bg-peach shadow-[0_0_14px_#e8a87c] sm:left-4.5"></span>
+            <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-xl font-semibold text-offwhite">Senior Product Designer</h2>
+                  <p class="font-serif italic text-base text-peach">Lumina Interactive Studio</p>
+                </div>
+                <span class="inline-flex w-fit rounded-full border border-peach/30 bg-peach/10 px-3.5 py-1 text-xs font-medium text-peach">
+                  2024 — Present
+                </span>
+              </div>
+              <p class="mt-4 text-sm leading-relaxed text-offwhite/80">
+                Leading end-to-end UX/UI design for flagship web applications and brand storytelling campaigns. Architected a cross-platform component library that reduced design-to-engineering handoff time by 40%.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="relative pl-11 sm:pl-16">
+            <span class="absolute left-2.5 top-6 h-3 w-3 rounded-full bg-offwhite/80 shadow-[0_0_10px_rgba(255,255,255,0.6)] sm:left-4.5"></span>
+            <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-xl font-semibold text-offwhite">Digital Media &amp; Communications Fellow</h2>
+                  <p class="font-serif italic text-base text-peach">Wake Forest University Humanities Institute</p>
+                </div>
+                <span class="inline-flex w-fit rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1 text-xs font-medium text-offwhite/75">
+                  2022 — 2024
+                </span>
+              </div>
+              <p class="mt-4 text-sm leading-relaxed text-offwhite/80">
+                Spearheaded visual branding, editorial event series campaigns, and digital storytelling across Instagram and web platforms—growing community engagement and showcasing interdisciplinary humanities scholarship.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="relative pl-11 sm:pl-16">
+            <span class="absolute left-2.5 top-6 h-3 w-3 rounded-full bg-offwhite/60 sm:left-4.5"></span>
+            <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h2 class="text-xl font-semibold text-offwhite">UI/UX &amp; Frontend Intern</h2>
+                  <p class="font-serif italic text-base text-peach">Horizon Creative Lab</p>
+                </div>
+                <span class="inline-flex w-fit rounded-full border border-offwhite/15 bg-white/5 px-3.5 py-1 text-xs font-medium text-offwhite/75">
+                  2021 — 2022
+                </span>
+              </div>
+              <p class="mt-4 text-sm leading-relaxed text-offwhite/80">
+                Designed responsive landing pages, interactive data visualizations, and accessible mobile interfaces while conducting moderated usability studies with 35+ participants.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 5: CONTACT                                              -->
+      <!-- =============================================================== -->
+      <section id="page-contact" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 05 · Alkaid</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Send a Signal Across the Sky</h1>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <!-- Contact Form -->
+          <div class="lg:col-span-7">
+            <form onsubmit="handleContactSubmit(event)" class="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+              <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="contact-name" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70">Your Name</label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    required
+                    placeholder="Alex Rivera"
+                    class="mt-2 w-full rounded-2xl border border-offwhite/15 bg-[#080b1c]/70 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label for="contact-email" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70">Email Address</label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    placeholder="alex@example.com"
+                    class="mt-2 w-full rounded-2xl border border-offwhite/15 bg-[#080b1c]/70 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="contact-subject" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70">Subject</label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  required
+                  placeholder="Project collaboration, design inquiry, or hello!"
+                  class="mt-2 w-full rounded-2xl border border-offwhite/15 bg-[#080b1c]/70 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label for="contact-message" class="block text-xs font-medium uppercase tracking-wider text-offwhite/70">Message</label>
+                <textarea
+                  id="contact-message"
+                  rows="4"
+                  required
+                  placeholder="Tell me about what you're building..."
+                  class="mt-2 w-full rounded-2xl border border-offwhite/15 bg-[#080b1c]/70 px-4 py-3 text-sm text-offwhite placeholder-offwhite/35 focus:border-peach focus:outline-none"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-6 py-3.5 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              >
+                Send Message ✦
+              </button>
+            </form>
+          </div>
+
+          <!-- Direct Social & Email Channels -->
+          <div class="lg:col-span-5 space-y-5">
+            <div class="glass-card rounded-3xl p-6 sm:p-8">
+              <h2 class="font-serif italic text-2xl text-offwhite">Direct Channels</h2>
+              <p class="mt-2 text-sm leading-relaxed text-offwhite/75">
+                Prefer reaching out directly? Copy my email or connect across my creative profiles.
+              </p>
+
+              <div class="mt-6 space-y-3">
+                <button
+                  onclick="copyEmailToClipboard()"
+                  class="flex w-full items-center justify-between rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3.5 text-left text-sm text-offwhite transition-colors hover:border-peach/50 hover:text-peach cursor-pointer"
+                >
+                  <span>hello@celinechiang.design</span>
+                  <span class="rounded-lg bg-peach/15 px-2.5 py-1 text-xs font-medium text-peach">Copy</span>
+                </button>
+
+                <a
+                  href="https://www.instagram.com/wfuhumanities/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex w-full items-center justify-between rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3.5 text-sm text-offwhite transition-colors hover:border-peach/50 hover:text-peach"
+                >
+                  <span>Instagram (@wfuhumanities)</span>
+                  <span class="text-xs text-offwhite/50">↗</span>
+                </a>
+
+                <a
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex w-full items-center justify-between rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3.5 text-sm text-offwhite transition-colors hover:border-peach/50 hover:text-peach"
+                >
+                  <span>LinkedIn</span>
+                  <span class="text-xs text-offwhite/50">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: STARFIELD, PROCEDURAL GRASS ON HILL BEZIER, NAVIGATION    -->
+  <!-- ===================================================================== -->
+  <script>
+    // 1. Generate Procedural Twinkling Starfields for Landing Page & Subpages
+    function populateStarfield(containerId, count) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('span');
+        star.className = 'bg-star';
+
+        const size = Math.random() < 0.82 ? (Math.random() * 1.6 + 1) : (Math.random() * 2.2 + 2.2);
+        const left = Math.random() * 100;
+        // Keep stars slightly denser in upper 78% of sky
+        const top = Math.pow(Math.random(), 0.85) * 86;
+        const dur = (Math.random() * 4.5 + 2.5).toFixed(2) + 's';
+        const delay = (Math.random() * 5).toFixed(2) + 's';
+        const minOp = (Math.random() * 0.22 + 0.12).toFixed(2);
+        const maxOp = (Math.random() * 0.45 + 0.55).toFixed(2);
+
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}%`;
+        star.style.top = `${top}%`;
+        star.style.setProperty('--dur', dur);
+        star.style.setProperty('--delay', delay);
+        star.style.setProperty('--min-op', minOp);
+        star.style.setProperty('--max-op', maxOp);
+
+        fragment.appendChild(star);
+      }
+      container.appendChild(fragment);
+    }
+
+    // 2. Periodic Subtle Shooting Star on Landing Sky
+    function triggerShootingStar() {
+      const container = document.getElementById('shooting-star-container');
+      const homeView = document.getElementById('view-home');
+      if (!container || homeView.classList.contains('hidden')) return;
+
+      const meteor = document.createElement('div');
+      meteor.className = 'shooting-star';
+      meteor.style.left = `${55 + Math.random() * 38}%`;
+      meteor.style.top = `${6 + Math.random() * 26}%`;
+      container.appendChild(meteor);
+
+      setTimeout(() => {
+        meteor.remove();
+      }, 1700);
+    }
+
+    // 3. Exact Quadratic Bezier Evaluator for Hill Curve:
+    // M 0 492 Q 420 486, 780 464 Q 1060 444, 1175 448 Q 1310 453, 1440 468
+    function getHillYAtX(x) {
+      function solveQuadBezierY(xTarget, x0, y0, cx, cy, x1, y1) {
+        const a = x0 - 2 * cx + x1;
+        const b = 2 * (cx - x0);
+        const c = x0 - xTarget;
+        let t = 0.5;
+        if (Math.abs(a) < 1e-6) {
+          t = (xTarget - x0) / (x1 - x0);
+        } else {
+          const disc = Math.max(0, b * b - 4 * a * c);
+          const t1 = (-b + Math.sqrt(disc)) / (2 * a);
+          const t2 = (-b - Math.sqrt(disc)) / (2 * a);
+          t = (t1 >= -0.001 && t1 <= 1.001) ? t1 : t2;
+        }
+        t = Math.max(0, Math.min(1, t));
+        const oneMinusT = 1 - t;
+        return oneMinusT * oneMinusT * y0 + 2 * oneMinusT * t * cy + t * t * y1;
+      }
+
+      if (x <= 780) {
+        return solveQuadBezierY(x, 0, 492, 420, 486, 780, 464);
+      } else if (x <= 1175) {
+        return solveQuadBezierY(x, 780, 464, 1060, 444, 1175, 448);
+      } else {
+        return solveQuadBezierY(x, 1175, 448, 1310, 453, 1440, 468);
+      }
+    }
+
+    // Generate 470+ Tapered Grass Blades Rooted Directly Into the Hill Contour
+    function generateHillGrass() {
+      const grassGroup = document.getElementById('hill-grass-blades');
+      if (!grassGroup) return;
+
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const fragment = document.createDocumentFragment();
+      const totalBlades = 475;
+
+      for (let i = 0; i < totalBlades; i++) {
+        const x = (i / totalBlades) * 1440 + (Math.sin(i * 17.3) * 1.4);
+        const baseY = getHillYAtX(x) + 2.5; // Rooted 2.5px inside the hill silhouette so nothing floats
+
+        // Slightly shorter grass directly beneath the girl's boots (x: 1105..1182)
+        const nearFeet = x >= 1104 && x <= 1184;
+        const height = nearFeet
+          ? 5 + (Math.abs(Math.sin(i * 11.7)) * 5)
+          : 7 + (Math.abs(Math.sin(i * 7.9 + 1.2)) * 9.5);
+
+        const lean = Math.sin(i * 3.7) * 3.2 - 0.8;
+        const halfBase = 1.05 + (i % 3) * 0.25;
+
+        const blade = document.createElementNS(svgNS, 'path');
+        const tipX = (x + lean).toFixed(1);
+        const tipY = (baseY - height).toFixed(1);
+        const leftX = (x - halfBase).toFixed(1);
+        const rightX = (x + halfBase).toFixed(1);
+        const rootY = (baseY + 2).toFixed(1);
+
+        blade.setAttribute('d', `M ${leftX} ${rootY} Q ${x.toFixed(1)} ${(baseY - height * 0.55).toFixed(1)}, ${tipX} ${tipY} Q ${(x + halfBase * 0.5).toFixed(1)} ${(baseY - height * 0.45).toFixed(1)}, ${rightX} ${rootY} Z`);
+        fragment.appendChild(blade);
+      }
+
+      grassGroup.appendChild(fragment);
+    }
+
+    // 4. Constellation Hover Line Highlight
+    function highlightConstellation(active) {
+      const wrapper = document.getElementById('constellation-wrapper');
+      if (!wrapper) return;
+      if (active) {
+        wrapper.classList.add('constellation-active');
+      } else {
+        wrapper.classList.remove('constellation-active');
+      }
+    }
+
+    // 5. Starlight Transition & Page Navigation
+    const pageLabels = {
+      home: 'Returning to the night sky...',
+      about: 'Following Dubhe · About Me',
+      projects: 'Following Merak · Projects',
+      skills: 'Following Megrez · Skills',
+      experience: 'Following Phecda · Experience',
+      contact: 'Following Alkaid · Contact'
+    };
+
+    function navigateTo(target) {
+      const veil = document.getElementById('transition-veil');
+      const label = document.getElementById('transition-label');
+      const homeView = document.getElementById('view-home');
+      const subpageShell = document.getElementById('subpage-shell');
+
+      if (label) {
+        label.textContent = pageLabels[target] || 'Following star...';
+      }
+
+      veil.classList.add('active');
+
+      setTimeout(() => {
+        if (target === 'home') {
+          subpageShell.classList.add('hidden');
+          homeView.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        } else {
+          homeView.classList.add('hidden');
+          subpageShell.classList.remove('hidden');
+
+          // Hide all subpages, show selected one
+          document.querySelectorAll('.subpage-view').forEach((sec) => {
+            sec.classList.add('hidden');
+            sec.classList.remove('view-enter');
+          });
+
+          const activePage = document.getElementById(`page-${target}`);
+          if (activePage) {
+            activePage.classList.remove('hidden');
+            void activePage.offsetWidth; // trigger reflow for animation
+            activePage.classList.add('view-enter');
+          }
+
+          // Update active pill styling in sticky nav
+          document.querySelectorAll('.sub-nav-pill').forEach((pill) => {
+            if (pill.dataset.nav === target) {
+              pill.classList.add('bg-peach', 'text-[#090c1e]', 'font-semibold');
+              pill.classList.remove('text-offwhite/75', 'hover:text-peach');
+            } else {
+              pill.classList.remove('bg-peach', 'text-[#090c1e]', 'font-semibold');
+              pill.classList.add('text-offwhite/75', 'hover:text-peach');
+            }
+          });
+
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Update URL hash cleanly without jumping
+        try {
+          history.replaceState(null, '', target === 'home' ? '#home' : `#${target}`);
+        } catch (e) {}
+
+        setTimeout(() => {
+          veil.classList.remove('active');
+        }, 160);
+      }, 280);
+    }
+
+    // 6. Toast Notification Helper (Replaces alert())
+    let toastTimer = null;
+    function showToast(message) {
+      const box = document.getElementById('toast-box');
+      const msg = document.getElementById('toast-message');
+      if (!box || !msg) return;
+
+      msg.textContent = message;
+      box.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        box.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => box.classList.add('hidden'), 300);
+      }, 3400);
+    }
+
+    // 7. Contact Form & Clipboard Handlers
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('contact-name');
+      const sender = nameInput && nameInput.value ? nameInput.value.trim() : 'friend';
+      showToast(`Thank you, ${sender}! Your message has been sent.`);
+      event.target.reset();
+    }
+
+    function copyEmailToClipboard() {
+      const email = 'hello@celinechiang.design';
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Copied ${email} to clipboard!`);
+      } catch (err) {
+        showToast(`Email: ${email}`);
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // 8. Initialize on Window Load
+    window.addEventListener('DOMContentLoaded', () => {
+      populateStarfield('home-starfield', 120);
+      populateStarfield('subpage-starfield', 65);
+      generateHillGrass();
+
+      // Periodic subtle shooting star
+      setTimeout(triggerShootingStar, 2400);
+      setInterval(triggerShootingStar, 7500);
+
+      // Respect deep link hash if present (defaulting to #home)
+      const initialHash = window.location.hash.replace('#', '').toLowerCase();
+      if (['about', 'projects', 'skills', 'experience', 'contact'].includes(initialHash)) {
+        navigateTo(initialHash);
+      }
+    });
+  </script>
+</body>
+</html>
