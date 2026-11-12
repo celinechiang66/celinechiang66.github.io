@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celine Chiang — Personal Portfolio</title>
+
+  <!-- Tailwind CSS v4 Browser CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Google Fonts: Cormorant Garamond (italic & regular serif) + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Official LinkedIn Profile Badge Script -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: "Cormorant Garamond", Georgia, serif;
+      --color-midnight: #090c1e;
+      --color-twilight: #1e2144;
+      --color-dusk: #4b4875;
+      --color-plum: #68557a;
+      --color-rose: #d48c84;
+      --color-peach: #e8a87c;
+      --color-offwhite: #f5ece6;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background-color: #090c1e;
+      color: #f5ece6;
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Full Twilight Gradient */
+    .twilight-sky {
+      background: linear-gradient(
+        180deg,
+        #080b1c 0%,
+        #131736 22%,
+        #2d2e59 46%,
+        #68557a 67%,
+        #c58482 84%,
+        #f2be9f 100%
+      );
+    }
+
+    /* Subpage Deep Night Sky Background */
+    .subpage-sky {
+      background:
+        radial-gradient(circle at 82% 14%, rgba(104, 85, 122, 0.28) 0%, transparent 45%),
+        radial-gradient(circle at 14% 86%, rgba(232, 168, 124, 0.14) 0%, transparent 50%),
+        linear-gradient(180deg, #080b1c 0%, #111530 55%, #1d1f42 100%);
+    }
+
+    /* Background Twinkling Stars */
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: var(--min-op, 0.25);
+        transform: scale(0.9);
+      }
+      50% {
+        opacity: var(--max-op, 0.95);
+        transform: scale(1.15);
+      }
+    }
+
+    .bg-star {
+      position: absolute;
+      border-radius: 9999px;
+      background-color: #fffaf0;
+      pointer-events: none;
+      animation: twinkle var(--dur, 4s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    /* Shooting Star Keyframes */
+    @keyframes shoot {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(-28deg) scaleX(0.3);
+      }
+      12% {
+        opacity: 1;
+        transform: translate3d(-60px, 32px, 0) rotate(-28deg) scaleX(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(-420px, 225px, 0) rotate(-28deg) scaleX(0.2);
+      }
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 130px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(255, 250, 240, 0.95), rgba(242, 190, 159, 0.35), transparent);
+      border-radius: 9999px;
+      filter: drop-shadow(0 0 6px rgba(255, 250, 240, 0.85));
+      animation: shoot 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Constellation Interactive Star Glow */
+    @keyframes starPulse {
+      0%, 100% {
+        box-shadow: 0 0 18px 6px rgba(255, 250, 235, 0.72), 0 0 36px 14px rgba(242, 190, 159, 0.32);
+      }
+      50% {
+        box-shadow: 0 0 24px 9px rgba(255, 252, 242, 0.95), 0 0 48px 18px rgba(242, 190, 159, 0.48);
+      }
+    }
+
+    .star-node-core {
+      animation: starPulse 3.6s ease-in-out infinite;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+    }
+
+    .star-trigger:hover .star-node-core,
+    .star-trigger:focus-visible .star-node-core {
+      transform: scale(1.45);
+      background-color: #ffffff;
+    }
+
+    .star-label {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 2px 12px rgba(9, 12, 30, 0.85);
+    }
+
+    .star-trigger:hover .star-label,
+    .star-trigger:focus-visible .star-label {
+      color: #f8d0b0;
+      transform: translateY(3px) scale(1.06);
+      text-shadow: 0 0 18px rgba(242, 190, 159, 0.85);
+    }
+
+    /* Subtle Dash Flow on Constellation Lines when hovered */
+    @keyframes dashFlow {
+      to {
+        stroke-dashoffset: -24;
+      }
+    }
+
+    .constellation-active .constellation-line {
+      stroke: rgba(255, 248, 235, 0.85);
+      animation: dashFlow 1.8s linear infinite;
+    }
+
+    /* Gentle Hair & Dress Breeze Sway */
+    @keyframes breezeSway {
+      0%, 100% {
+        transform: rotate(0deg) translateX(0px);
+      }
+      50% {
+        transform: rotate(1.4deg) translateX(2px);
+      }
+    }
+
+    .wind-sway {
+      transform-origin: 79% 68%;
+      animation: breezeSway 5.5s ease-in-out infinite;
+    }
+
+    /* Starlight Warp / Page Transition Overlay */
+    #transition-veil {
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #transition-veil.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Page View Fade-Up Entrance */
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .view-enter {
+      animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Glassmorphism Cards for Subpages */
+    .glass-card {
+      background: rgba(20, 24, 52, 0.62);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245, 236, 230, 0.12);
+      box-shadow: 0 18px 40px -15px rgba(4, 6, 18, 0.7);
+    }
+
+    .glass-card-hover {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-4px);
+      border-color: rgba(232, 168, 124, 0.42);
+      box-shadow: 0 22px 45px -12px rgba(232, 168, 124, 0.14);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080b1c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2f335c;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e8a87c;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-peach/30 selection:text-offwhite">
+
+  <!-- Starlight Burst Transition Overlay -->
+  <div id="transition-veil" class="fixed inset-0 z-50 flex items-center justify-center bg-[#080b1c]/95 backdrop-blur-md">
+    <div class="text-center">
+      <div class="mx-auto mb-3 h-3 w-3 rounded-full bg-white shadow-[0_0_35px_14px_rgba(242,190,159,0.9)] animate-ping"></div>
+      <p id="transition-label" class="font-serif italic text-lg tracking-wide text-peach/90">Following star...</p>
+    </div>
+  </div>
+
+  <!-- Toast Notification (Replaces alert() per system standards) -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 hidden transform transition-all duration-300 translate-y-4 opacity-0">
+    <div class="glass-card flex items-center gap-3 rounded-2xl border border-peach/40 px-5 py-3.5 text-sm text-offwhite shadow-2xl">
+      <span class="h-2.5 w-2.5 rounded-full bg-peach shadow-[0_0_10px_#e8a87c]"></span>
+      <span id="toast-message">Action completed</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- LANDING PAGE VIEW (TWILIGHT CONSTELLATION HERO)                       -->
+  <!-- ===================================================================== -->
+  <main id="home-view" class="relative min-h-screen w-full twilight-sky overflow-hidden flex flex-col justify-between">
+    
+    <!-- Procedural Twinkling Starfield Layer -->
+    <div id="home-starfield" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Subtle Shooting Star Canvas Effect -->
+    <div id="shooting-star-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Top Header -->
+    <header class="relative z-20 flex items-center justify-between px-6 pt-5 sm:px-10 sm:pt-7">
+      <div class="flex items-center gap-2 text-xs tracking-[0.22em] uppercase text-offwhite/55">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-peach/80"></span>
+        <span>Interactive Constellation</span>
+      </div>
+      <nav aria-label="Quick Star Links" class="hidden md:flex items-center gap-5 text-xs tracking-wider text-offwhite/65">
+        <button onclick="navigateTo('about')" class="hover:text-peach transition-colors cursor-pointer">About Me</button>
+        <button onclick="navigateTo('projects')" class="hover:text-peach transition-colors cursor-pointer">Projects</button>
+        <button onclick="navigateTo('skills')" class="hover:text-peach transition-colors cursor-pointer">Skills</button>
+        <button onclick="navigateTo('experience')" class="hover:text-peach transition-colors cursor-pointer">Experience</button>
+        <button onclick="navigateTo('contact')" class="hover:text-peach transition-colors cursor-pointer">Contact</button>
+      </nav>
+    </header>
+
+    <!-- INTERACTIVE BIG DIPPER CONSTELLATION STAGE -->
+    <section aria-label="Constellation Navigation" class="relative z-20 mx-auto w-full max-w-6xl flex-1 flex items-center justify-center px-3 sm:px-8 pt-2 pb-28 sm:pb-36">
+      <div id="constellation-wrapper" class="relative w-full max-w-[920px] aspect-[16/9] sm:aspect-[16/8.2] min-h-[290px] sm:min-h-[340px]">
+        
+        <!-- SVG Dotted Constellation Lines Connecting the 7 Stars of the Big Dipper -->
+        <svg viewBox="0 0 1000 500" preserveAspectRatio="none" class="absolute inset-0 h-full w-full pointer-events-none overflow-visible">
+          <defs>
+            <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- Bowl + Handle Polyline -->
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="130,85 145,270 325,300 335,145 130,85"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+          <polyline
+            class="constellation-line transition-all duration-500"
+            points="335,145 475,115 605,72 755,118"
+            fill="none"
+            stroke="rgba(245, 236, 230, 0.48)"
+            stroke-width="2.1"
+            stroke-dasharray="4 8"
+            stroke-linecap="round"
+            filter="url(#lineGlow)"
+          />
+        </svg>
+
+        <!-- STAR 1: ABOUT ME (Top-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('about')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 13%; top: 17%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open About Me page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            About Me
+          </span>
+        </button>
+
+        <!-- STAR 2: PROJECTS (Bottom-Left Bowl Star) -->
+        <button
+          onclick="navigateTo('projects')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 14.5%; top: 54%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Projects page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 0.6s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Projects
+          </span>
+        </button>
+
+        <!-- STAR 3: EXPERIENCE (Bottom-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('experience')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 32.5%; top: 60%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Experience page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.2s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Experience
+          </span>
+        </button>
+
+        <!-- STAR 4: SKILLS (Top-Right Bowl Star) -->
+        <button
+          onclick="navigateTo('skills')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 33.5%; top: 29%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Skills page"
+        >
+          <span class="relative flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full bg-[#fffdf7]" style="animation-delay: 1.8s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Skills
+          </span>
+        </button>
+
+        <!-- DECORATIVE HANDLE STAR 1 (Mid-Handle Anchor) -->
+        <div
+          style="left: 47.5%; top: 23%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- DECORATIVE HANDLE STAR 2 (Upper Arch Handle Star) -->
+        <div
+          style="left: 60.5%; top: 14.5%;"
+          class="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+            <span class="h-2.5 w-2.5 rounded-full bg-[#fffdf7] shadow-[0_0_16px_5px_rgba(255,250,235,0.8)]"></span>
+          </span>
+        </div>
+
+        <!-- STAR 5: CONTACT (Far-Right Handle Tip Star near Reaching Hand) -->
+        <button
+          onclick="navigateTo('contact')"
+          onmouseenter="highlightConstellation(true)"
+          onmouseleave="highlightConstellation(false)"
+          style="left: 75.5%; top: 23.5%;"
+          class="star-trigger group absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-3 cursor-pointer focus:outline-none"
+          aria-label="Open Contact page"
+        >
+          <span class="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:scale-125">
+            <span class="star-node-core h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full bg-[#ffffff]" style="animation-delay: 2.3s;"></span>
+          </span>
+          <span class="star-label mt-1.5 sm:mt-2 font-serif italic text-base sm:text-xl md:text-2xl tracking-wide text-offwhite whitespace-nowrap">
+            Contact
+          </span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- HERO BRANDING (Bottom-Left above the grassy hill) -->
+    <div class="relative z-20 pointer-events-none px-6 sm:px-12 md:px-16 pb-16 sm:pb-24 md:pb-28 max-w-4xl">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-none drop-shadow-[0_4px_24px_rgba(9,12,30,0.45)]">
+        <span class="text-[#f7efe9]">Celine</span>
+        <span class="text-[#f0b47c] ml-1.5">Chiang</span>
+      </h1>
+      <p class="mt-2.5 sm:mt-3 text-[11px] sm:text-xs md:text-sm font-medium tracking-[0.28em] uppercase text-[#f7efe9]/85 drop-shadow">
+        FOLLOW A STAR TO GET TO KNOW ME.
+      </p>
+    </div>
+
+    <!-- CUSTOM INLINE SVG SILHOUETTE: GRASSY HILL + WOMAN REACHING FOR THE STARS -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full overflow-hidden leading-none">
+      <svg
+        viewBox="0 0 1440 520"
+        preserveAspectRatio="xMidYMax slice"
+        class="w-full h-[290px] sm:h-[380px] md:h-[440px] lg:h-[500px] block"
+        aria-hidden="true"
+      >
+        <defs>
+          <!-- Soft Backlight Halo Behind the Silhouette -->
+          <radialGradient id="girlAura" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#f6cbb0" stop-opacity="0.34" />
+            <stop offset="55%" stop-color="#b98395" stop-opacity="0.14" />
+            <stop offset="100%" stop-color="#090c1e" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Deep Silhouette Fill -->
+          <linearGradient id="silhouetteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#111024" />
+            <stop offset="100%" stop-color="#080917" />
+          </linearGradient>
+        </defs>
+
+        <!-- Radial Halo Surrounding the Figure -->
+        <circle cx="1135" cy="240" r="165" fill="url(#girlAura)" />
+
+        <!-- Silhouette of Woman / Girl Standing on Hill Crest & Reaching Upward Left -->
+        <g class="wind-sway" fill="url(#silhouetteGrad)">
+          <!-- Flowing Wind-Swept Long Hair -->
+          <path d="M 1138 148
+                   C 1165 145, 1188 168, 1205 202
+                   C 1218 228, 1236 242, 1255 247
+                   C 1240 255, 1222 252, 1211 245
+                   C 1222 263, 1234 274, 1246 279
+                   C 1228 282, 1212 273, 1202 262
+                   C 1205 282, 1209 300, 1214 313
+                   C 1197 303, 1188 288, 1183 272
+                   C 1179 292, 1174 307, 1166 318
+                   C 1166 293, 1167 265, 1160 235
+                   Z" />
+
+          <!-- Head & Tilted Profile Looking Upward Toward Constellation -->
+          <path d="M 1142 146
+                   C 1126 144, 1114 153, 1111 166
+                   C 1109 171, 1105 174, 1106 177
+                   C 1107 179, 1110 180, 1111 182
+                   C 1110 185, 1112 188, 1115 189
+                   C 1116 193, 1121 196, 1128 196
+                   L 1129 212
+                   L 1147 212
+                   L 1148 192
+                   C 1158 185, 1162 170, 1157 157
+                   C 1154 150, 1148 147, 1142 146 Z" />
+
+          <!-- Raised Reaching Arm & Expressive Open Hand -->
+          <path d="M 1126 218
+                   L 1068 180
+                   L 1054 168
+                   C 1051 165, 1047 167, 1049 170
+                   L 1055 176
+                   L 1043 169
+                   C 1040 168, 1038 171, 1041 173
+                   L 1052 180
+                   L 1040 176
+                   C 1037 175, 1036 178, 1039 180
+                   L 1051 184
+                   L 1042 183
+                   C 1039 183, 1039 186, 1042 187
+                   L 1055 189
+                   L 1063 190
+                   L 1122 232 Z" />
+
+          <!-- Trailing Back Arm -->
+          <path d="M 1162 224
+                   L 1196 276
+                   L 1208 286
+                   C 1210 288, 1208 291, 1205 290
+                   L 1197 286
+                   L 1202 294
+                   C 1203 296, 1200 298, 1198 296
+                   L 1190 284
+                   L 1154 236 Z" />
+
+          <!-- Torso & Flowing Breeze-Blown Dress -->
+          <path d="M 1126 210
+                   L 1152 210
+                   C 1162 224, 1164 244, 1160 264
+                   C 1175 298, 1204 334, 1244 352
+                   C 1234 358, 1222 361, 1211 361
+                   C 1221 369, 1231 374, 1240 377
+                   C 1216 385, 1192 387, 1172 385
+                   C 1154 393, 1135 397, 1118 395
+                   C 1115 352, 1117 308, 1124 268
+                   C 1118 250, 1116 230, 1126 210 Z" />
+
+          <!-- Legs & Boots/Shoes Anchored on the Hill Crest -->
+          <path d="M 1128 390
+                   L 1124 445
+                   L 1106 452
+                   C 1103 453, 1104 456, 1108 456
+                   L 1134 456
+                   L 1139 392 Z" />
+          <path d="M 1146 388
+                   L 1168 446
+                   L 1152 453
+                   C 1149 454, 1150 457, 1154 457
+                   L 1181 456
+                   L 1158 386 Z" />
+        </g>
+
+        <!-- Rolling Dark Grassy Hill Horizon -->
+        <path
+          d="M 0 492
+             Q 420 486, 780 464
+             Q 1060 444, 1175 448
+             Q 1310 453, 1440 468
+             L 1440 520
+             L 0 520 Z"
+          fill="#080917"
+        />
+
+        <!-- Procedural Grass Tufts Container along the Hill Crest -->
+        <g id="hill-grass-blades" fill="#080917"></g>
+      </svg>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- SUBPAGES CONTAINER (OPENED WHEN CLICKING ANY CONSTELLATION STAR)      -->
+  <!-- ===================================================================== -->
+  <div id="subpage-shell" class="hidden min-h-screen w-full subpage-sky relative overflow-x-hidden">
+    
+    <!-- Ambient Stars on Subpages -->
+    <div id="subpage-starfield" class="fixed inset-0 z-0 pointer-events-none"></div>
+
+    <!-- Sticky Glass Constellation Navigation Bar -->
+    <nav aria-label="Portfolio Constellation Navigation" class="sticky top-0 z-30 border-b border-offwhite/10 bg-[#080b1c]/80 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-8">
+        
+        <!-- Back to Night Sky Button -->
+        <button
+          onclick="navigateTo('home')"
+          class="group inline-flex items-center gap-2 rounded-full border border-offwhite/15 bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium text-offwhite transition-all hover:border-peach/60 hover:bg-peach/15 hover:text-peach cursor-pointer"
+        >
+          <svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Night Sky</span>
+        </button>
+
+        <!-- Mini Constellation Star Switcher -->
+        <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-1">
+          <button data-nav="about" onclick="navigateTo('about')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ About Me
+          </button>
+          <button data-nav="projects" onclick="navigateTo('projects')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Projects
+          </button>
+          <button data-nav="skills" onclick="navigateTo('skills')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Skills
+          </button>
+          <button data-nav="experience" onclick="navigateTo('experience')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Experience
+          </button>
+          <button data-nav="contact" onclick="navigateTo('contact')" class="sub-nav-pill rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-serif italic transition-all cursor-pointer">
+            ✦ Contact
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Dynamic Subpage Content Mount -->
+    <div class="relative z-10 mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 1: ABOUT ME                                             -->
+      <!-- =============================================================== -->
+      <section id="page-about" class="subpage-view hidden">
+        <div class="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+          <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+          <span>Star 01 · Dubhe</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          <!-- Left Portrait / Monogram Card -->
+          <div class="lg:col-span-5">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+              <div class="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-peach/15 blur-2xl"></div>
+              <div class="mx-auto mb-5 flex h-36 w-36 items-center justify-center rounded-full border-2 border-peach/40 bg-gradient-to-br from-[#2d2e59] via-[#68557a] to-[#d48c84] shadow-[0_0_40px_rgba(232,168,124,0.25)]">
+                <span class="font-serif italic text-4xl font-semibold text-offwhite">CC</span>
+              </div>
+              <h2 class="text-2xl font-semibold text-offwhite">Celine <span class="text-peach">Chiang</span></h2>
+              <p class="mt-1 text-sm text-offwhite/70">Wake Forest University Researcher · Digital Storyteller · Campus Leader</p>
+              <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1 text-xs text-offwhite/80">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                Research, Media &amp; Community Impact
+              </div>
+
+              <div class="mt-7 flex flex-col gap-3">
+                <button
+                  onclick="showToast('Resume PDF download started (Celine_Chiang_Resume.pdf)')"
+                  class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-5 py-3 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.02] active:scale-[0.99] cursor-pointer"
+                >
+                  Download Resume (PDF)
+                </button>
+                <button
+                  onclick="navigateTo('projects')"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-5 py-3 text-sm font-medium text-offwhite transition-colors hover:border-peach/50 hover:text-peach cursor-pointer"
+                >
+                  Explore My Projects →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Editorial Bio & Philosophy -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-9">
+              <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite leading-tight">
+                Bridging scientific rigor with human-centered storytelling and community.
+              </h1>
+              <p class="mt-5 text-base leading-relaxed text-offwhite/80">
+                Hi, I’m <strong class="font-semibold text-peach">Celine Chiang</strong>—a Wake Forest University researcher, digital storyteller, and campus leader driven by curiosity across both the laboratory and creative media. For me, stargazing is the art of looking at seemingly disparate stars and connecting them to form a bigger picture—a philosophy that shapes how I link analytical chemistry, visual communication, and community building into one cohesive story.
+              </p>
+              <p class="mt-4 text-base leading-relaxed text-offwhite/80">
+                At the same time, gazing toward distant stars reminds me that the pursuit of knowledge is endless. Whether I am aligning circularly polarized laser systems at the WFU Center for Functional Materials, analyzing chiral biomarkers with GC-MS and HPLC-MS, curating digital campaigns for <span class="font-medium text-peach">@wfuhumanities</span>, or translating complex testimony on the Mock Trial stage, there is always another horizon of understanding to explore.
+              </p>
+
+              <!-- Core Values / Pillars -->
+              <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">01. Research</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Investigating gas-phase chiral discrimination, spectroscopy, and Gaussian modeling.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">02. Storytelling</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Crafting visual systems, short-form Reels, and clear science communication.</p>
+                </div>
+                <div class="rounded-2xl border border-offwhite/10 bg-white/[0.03] p-4">
+                  <div class="font-serif italic text-lg text-peach">03. Leadership</div>
+                  <p class="mt-1.5 text-xs leading-relaxed text-offwhite/70">Uniting 20+ student organizations and fostering supportive residential communities.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 2: PROJECTS (GROUPED HUMANITIES INSTITUTE SHOWCASE)     -->
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 2: PROJECTS (GROUPED HUMANITIES INSTITUTE & CLUB REELS) -->
+      <!-- =============================================================== -->
+      <section id="page-projects" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 02 · Merak</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Selected Projects</h1>
+        </div>
+
+        <!-- Unified Project Group Card: Wake Forest Humanities Institute -->
+        <article class="glass-card rounded-3xl border border-offwhite/15 p-6 sm:p-9 space-y-8">
+          
+          <!-- Top Project Header & Short Description -->
+          <div class="border-b border-offwhite/10 pb-6 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div class="max-w-2xl">
+              <div class="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-peach mb-3">
+                <span>Project 01 · Social Media &amp; Content Strategy</span>
+              </div>
+              <h2 class="font-serif italic text-2xl sm:text-3xl text-offwhite">Wake Forest Humanities Institute</h2>
+              <p class="mt-2.5 text-sm sm:text-base leading-relaxed text-offwhite/80">
+                Managed digital storytelling, visual identity, and editorial scheduling for <span class="font-medium text-peach">@wfuhumanities</span>—spanning public Instagram campaign graphics and a structured monthly content calendar.
+              </p>
+            </div>
+
+            <a
+              href="https://www.instagram.com/wfuhumanities/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 self-start shrink-0 rounded-full bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-5 py-2.5 text-xs sm:text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.02]"
+            >
+              <span>Open @wfuhumanities on Instagram</span>
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Artifact 1: Instagram Profile Showcase -->
+          <div>
+            <div class="mb-3.5">
+              <h3 class="font-serif italic text-xl sm:text-2xl text-offwhite">01. Instagram Profile Showcase</h3>
+              <p class="mt-1 text-xs sm:text-sm text-offwhite/70">
+                Live grid overview and visual cohesion across event announcements, faculty spotlights, and student features.
+              </p>
+            </div>
+
+            <div class="rounded-2xl border border-offwhite/15 bg-[#070a18]/50">
+              <!-- Browser Top Chrome -->
+              <div class="flex items-center justify-between rounded-t-2xl border-b border-offwhite/10 bg-[#070a18]/90 px-4 py-3 sm:px-6">
+                <div class="flex items-center gap-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-rose/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-peach/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
+                  <span class="ml-2 hidden sm:inline-block rounded-full bg-white/5 px-3 py-1 text-xs text-offwhite/65">
+                    https://www.instagram.com/wfuhumanities/
+                  </span>
+                </div>
+              </div>
+
+              <!-- Full-Width Instagram Profile Page Screenshot (Static, Unclipped Borders) -->
+              <div class="rounded-b-2xl bg-white p-3 sm:p-5">
+                <img
+                  id="ig-profile-screenshot"
+                  src="https://raw.githubusercontent.com/celinechiang66/celinechiang66.github.io/f024e576f67434b47276a420babbb466fddd9139/IMG_1798%202.jpg"
+                  alt="Wake Forest Humanities Institute (@wfuhumanities) Instagram profile page screenshot"
+                  class="mx-auto block h-auto w-full max-w-full object-contain select-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Artifact 2: Sample Content Calendar -->
+          <div class="pt-2 border-t border-offwhite/10">
+            <div class="mb-3.5 pt-4">
+              <h3 class="font-serif italic text-xl sm:text-2xl text-offwhite">02. Sample Content Calendar</h3>
+              <p class="mt-1 text-xs sm:text-sm leading-relaxed text-offwhite/75">
+                Editorial planning and social media scheduling layout created for <span class="font-medium text-peach">@wfuhumanities</span>.<br />
+                <span class="underline text-[#3897f0] font-medium">Blue, underlined dates</span> are hyperlinks to a shared document containing the post's poster, caption, and a brief 3-4 sentence explanation of the stylistic choices behind it.
+              </p>
+            </div>
+
+            <div class="rounded-2xl border border-offwhite/15 bg-[#070a18]/50">
+              <!-- Frame Top Chrome -->
+              <div class="flex items-center justify-between rounded-t-2xl border-b border-offwhite/10 bg-[#070a18]/90 px-4 py-3 sm:px-6">
+                <div class="flex items-center gap-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-rose/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-peach/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
+                  <span class="ml-2 inline-block rounded-full bg-white/5 px-3 py-1 text-xs text-offwhite/65">
+                    Sample Content Calendar — @wfuhumanities
+                  </span>
+                </div>
+              </div>
+
+              <!-- Full-Width Sample Content Calendar Image (Static, Unclipped Borders) -->
+              <div class="rounded-b-2xl bg-white p-3 sm:p-5">
+                <img
+                  id="content-calendar-screenshot"
+                  src="https://raw.githubusercontent.com/celinechiang66/celinechiang66.github.io/9df9dc6f74707dd4a9ddd92a6649eb7a13de27cf/Screenshot.jpeg"
+                  alt="Sample Content Calendar created by Celine Chiang"
+                  class="mx-auto block h-auto w-full max-w-full object-contain select-none"
+                />
+              </div>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- Unified Project Group Card 02: Student Club Reels -->
+        <article class="mt-10 glass-card rounded-3xl border border-offwhite/15 p-6 sm:p-9 space-y-8">
+          
+          <!-- Top Project Header & Short Description -->
+          <div class="border-b border-offwhite/10 pb-6">
+            <div class="max-w-2xl">
+              <div class="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-peach mb-3">
+                <span>Project 02 · Short-Form Video &amp; Campus Outreach</span>
+              </div>
+              <h2 class="font-serif italic text-2xl sm:text-3xl text-offwhite">Student Club Reels</h2>
+              <p class="mt-2.5 text-sm sm:text-base leading-relaxed text-offwhite/80">
+                Conceptualized, filmed, and edited short-form Instagram Reels for campus student organizations—blending dynamic pacing, campus storytelling, and engaging hooks to boost event visibility and student engagement.
+              </p>
+            </div>
+          </div>
+
+          <!-- Side-by-Side 2-Column Instagram Reels Embed Grid -->
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
+            
+            <!-- Reel 01 -->
+            <div class="rounded-2xl border border-offwhite/15 bg-[#070a18]/50 flex flex-col">
+              <div class="flex items-center justify-between rounded-t-2xl border-b border-offwhite/10 bg-[#070a18]/90 px-4 py-3">
+                <div class="flex items-center gap-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-rose/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-peach/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
+                  <span class="ml-1.5 text-xs font-medium text-offwhite/75">01. Club Feature Reel</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onclick="reloadReelIframe('reel-iframe-1')"
+                    class="text-xs text-offwhite/60 hover:text-peach transition-colors cursor-pointer"
+                    title="Reload Reel player"
+                  >
+                    ↻ Reload
+                  </button>
+                  <a
+                    href="https://www.instagram.com/reel/Deep-8WhLji/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs font-medium text-peach hover:underline"
+                  >
+                    Open Reel ↗
+                  </a>
+                </div>
+              </div>
+              <div class="bg-white p-3 sm:p-4 flex justify-center">
+                <iframe
+                  id="reel-iframe-1"
+                  src="https://www.instagram.com/reel/Deep-8WhLji/embed/"
+                  title="Student Club Feature Reel (@Deep-8WhLji)"
+                  class="w-full max-w-[360px] h-[600px] sm:h-[640px] rounded-xl border-0 bg-white"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowfullscreen
+                  scrolling="no"
+                  frameborder="0"
+                ></iframe>
+              </div>
+              <div class="rounded-b-2xl border-t border-offwhite/10 bg-[#070a18]/75 px-4 py-2.5 text-center">
+                <a
+                  href="https://www.instagram.com/reel/Deep-8WhLji/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs text-offwhite/70 hover:text-peach transition-colors"
+                >
+                  Having trouble previewing? Watch directly on Instagram ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- Reel 02 -->
+            <div class="rounded-2xl border border-offwhite/15 bg-[#070a18]/50 flex flex-col">
+              <div class="flex items-center justify-between rounded-t-2xl border-b border-offwhite/10 bg-[#070a18]/90 px-4 py-3">
+                <div class="flex items-center gap-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-rose/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-peach/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
+                  <span class="ml-1.5 text-xs font-medium text-offwhite/75">02. Club Promo Reel</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onclick="reloadReelIframe('reel-iframe-2')"
+                    class="text-xs text-offwhite/60 hover:text-peach transition-colors cursor-pointer"
+                    title="Reload Reel player"
+                  >
+                    ↻ Reload
+                  </button>
+                  <a
+                    href="https://www.instagram.com/reel/DfTNsCOBHFJ/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs font-medium text-peach hover:underline"
+                  >
+                    Open Reel ↗
+                  </a>
+                </div>
+              </div>
+              <div class="bg-white p-3 sm:p-4 flex justify-center">
+                <iframe
+                  id="reel-iframe-2"
+                  src="https://www.instagram.com/reel/DfTNsCOBHFJ/embed/"
+                  title="Student Club Promo Reel (@DfTNsCOBHFJ)"
+                  class="w-full max-w-[360px] h-[600px] sm:h-[640px] rounded-xl border-0 bg-white"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowfullscreen
+                  scrolling="no"
+                  frameborder="0"
+                ></iframe>
+              </div>
+              <div class="rounded-b-2xl border-t border-offwhite/10 bg-[#070a18]/75 px-4 py-2.5 text-center">
+                <a
+                  href="https://www.instagram.com/reel/DfTNsCOBHFJ/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs text-offwhite/70 hover:text-peach transition-colors"
+                >
+                  Having trouble previewing? Watch directly on Instagram ↗
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </article>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 3: SKILLS                                               -->
+      <!-- =============================================================== -->
+      <section id="page-skills" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 03 · Megrez</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Constellation of Skills</h1>
+          <p class="mt-1.5 text-sm text-offwhite/75">Core disciplines, digital media tools, data organization, and laboratory research techniques.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <!-- Skill Pillar 1: Digital Media & Content Creation -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-peach/15 text-peach font-serif italic text-xl">
+              ✦
+            </div>
+            <h2 class="text-lg font-semibold text-offwhite">Digital Media &amp; Content Creation</h2>
+            <p class="mt-1.5 text-xs text-offwhite/65">Visual storytelling, web publishing, and social media production.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Canva</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Wix</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">WordPress</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Vibecoding</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Buffer</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">CapCut</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Short-Form Video Production</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Picture-Editing</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Storytelling</span>
+            </div>
+          </div>
+
+          <!-- Skill Pillar 2: Data Organization -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose/20 text-rose font-serif italic text-xl">
+              ◈
+            </div>
+            <h2 class="text-lg font-semibold text-offwhite">Data Organization</h2>
+            <p class="mt-1.5 text-xs text-offwhite/65">Quantitative analysis, statistical testing, and structured datasets.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Microsoft Excel</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">R</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Java</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Vibe Coding</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Chi-Square</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">t- and z- Tests</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Statistical Tools</span>
+            </div>
+          </div>
+
+          <!-- Skill Pillar 3: Research -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-plum/30 text-peach font-serif italic text-xl">
+              ✧
+            </div>
+            <h2 class="text-lg font-semibold text-offwhite">Research</h2>
+            <p class="mt-1.5 text-xs text-offwhite/65">Optical spectroscopy, laser systems, analytical instrumentation, and computational chemistry.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Laser Safety</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Operation of HeNe Laser</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Operation of Excimer Laser</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Q-Tune Laser</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Circular Dichroism (CD)</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">UV-Vis Spectroscopy</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">GC-MS</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">HPLC-MS</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Serial Dilution</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">Gaussian</span>
+              <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-xs text-offwhite/90">AlphaFold Database</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 4: EXPERIENCE                                           -->
+      <!-- =============================================================== -->
+      <section id="page-experience" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 04 · Phecda</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Journey &amp; Experience</h1>
+          <p class="mt-1.5 text-sm text-offwhite/75">Scientific research, communications, and campus leadership milestones along my path.</p>
+        </div>
+
+        <div class="space-y-10">
+
+          <!-- =========================================================== -->
+          <!-- GROUP 1: SCIENTIFIC RESEARCH & LABORATORY EXPERIENCE        -->
+          <!-- =========================================================== -->
+          <div>
+            <div class="mb-5 flex items-center gap-3">
+              <button
+                type="button"
+                onclick="toggleExperienceGroup('exp-group-research', this)"
+                aria-expanded="true"
+                aria-controls="exp-group-research"
+                class="group inline-flex items-center gap-2.5 rounded-full border border-peach/35 bg-peach/15 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-peach transition-all duration-200 hover:border-peach/70 hover:bg-peach/25 hover:shadow-[0_0_18px_rgba(232,168,124,0.2)] active:scale-[0.98] cursor-pointer"
+              >
+                <span>Scientific Research &amp; Laboratory Experience</span>
+                <svg class="exp-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            <div id="exp-group-research" class="relative space-y-6 before:absolute before:left-5 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-peach before:via-rose/50 before:to-transparent sm:before:left-7">
+
+              <!-- Research Item 1 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-peach shadow-[0_0_14px_#e8a87c] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Undergraduate Research Fellowship · <span class="text-peach">WFU Center for Functional Materials</span></h2>
+                    <span class="rounded-full bg-peach/15 px-3 py-1 text-xs font-medium text-peach">May 2026 — Ongoing</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Secured a $4,500 Undergraduate Research Fellowship grant to lead an independent 10-week study on gas-phase chiral discrimination using circular dichroism. Performed VCD and UV-Vis calculations in Gaussian across four chiral test molecules (myrtenal, alpha-pinene, limonene, camphor) and built an optical system utilizing right- and left-circularly polarized Excimer and Q-Tune laser light to probe gas-phase myrtenal.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Research Item 2 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-rose shadow-[0_0_14px_#d48c84] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Research Assistant · <span class="text-peach">Lab of Dr. Mallory Green</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">Aug 2025 — May 2026</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Operated GC-MS and HPLC-MS instrumentation to achieve precise chiral discrimination for biomarker identification. Collaborated across three research groups to author new instrument SOPs, expand lab capabilities, and translate findings into an accessible technical white paper on separating nonvolatile compounds.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Research Item 3 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-offwhite/80 sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Research Assistant (Group Leader) · <span class="text-peach">Lab of Dr. Gregory Parks</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">May 2025 — Sep 2025</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Authored two legal memoranda synthesizing over 100 pages of academic literature into concise 20-page briefs, while organizing and systematizing a 1,800+ entry research database across Excel and Google Docs.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- GROUP 2: COMMUNICATIONS, MEDIA & ADVOCACY                   -->
+          <!-- =========================================================== -->
+          <div>
+            <div class="mb-5 flex items-center gap-3">
+              <button
+                type="button"
+                onclick="toggleExperienceGroup('exp-group-comms', this)"
+                aria-expanded="true"
+                aria-controls="exp-group-comms"
+                class="group inline-flex items-center gap-2.5 rounded-full border border-peach/35 bg-peach/15 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-peach transition-all duration-200 hover:border-peach/70 hover:bg-peach/25 hover:shadow-[0_0_18px_rgba(232,168,124,0.2)] active:scale-[0.98] cursor-pointer"
+              >
+                <span>Communications, Media &amp; Advocacy</span>
+                <svg class="exp-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            <div id="exp-group-comms" class="relative space-y-6 before:absolute before:left-5 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-peach before:via-rose/50 before:to-transparent sm:before:left-7">
+
+              <!-- Communications Item 1 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-peach shadow-[0_0_14px_#e8a87c] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Social Media Assistant · <span class="text-peach">Wake Forest University Humanities Institute</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">Oct 2025 — May 2026</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Formulated a cohesive visual color scheme and content schedule SOP using Canva and WordPress, boosting posting frequency by 150% (22 posts/month) and lifting cross-platform engagement by 36% across Instagram and Bluesky. Curated and verified 8 citation-backed Bluesky articles from 86 newsletter sources tailored to academic and student audiences.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Communications Item 2 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-rose shadow-[0_0_14px_#d48c84] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Expert Witness (“Outstanding Witness” Title Holder) · <span class="text-peach">Wake Forest University Mock Trial Team</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">Sep 2024 — Mar 2026</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Earned Invitational-level “Outstanding Witness” honors by translating complex health science into clear, accessible testimony for lay audiences across two court cases. Collaborated with coaches and a 23-member roster to refine case theory, direct/cross-examinations, and persuasive delivery under pressure.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- =========================================================== -->
+          <!-- GROUP 3: CAMPUS LEADERSHIP & COMMUNITY BUILDING             -->
+          <!-- =========================================================== -->
+          <div>
+            <div class="mb-5 flex items-center gap-3">
+              <button
+                type="button"
+                onclick="toggleExperienceGroup('exp-group-leadership', this)"
+                aria-expanded="true"
+                aria-controls="exp-group-leadership"
+                class="group inline-flex items-center gap-2.5 rounded-full border border-peach/35 bg-peach/15 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-peach transition-all duration-200 hover:border-peach/70 hover:bg-peach/25 hover:shadow-[0_0_18px_rgba(232,168,124,0.2)] active:scale-[0.98] cursor-pointer"
+              >
+                <span>Campus Leadership &amp; Community Building</span>
+                <svg class="exp-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            <div id="exp-group-leadership" class="relative space-y-6 before:absolute before:left-5 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-peach before:via-rose/50 before:to-transparent sm:before:left-7">
+
+              <!-- Leadership Item 1 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-peach shadow-[0_0_14px_#e8a87c] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">President &amp; Secretary · <span class="text-peach">Asian Student Interest Association</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">Aug 2025 — May 2026</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Spearheaded event planning and logistics for two large-scale campus initiatives, coordinating 20 student organizations and 300+ members. Led a five-person team across two multi-person research initiatives to consolidate findings on tight academic deadlines.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Leadership Item 2 -->
+              <div class="relative pl-12 sm:pl-16">
+                <span class="absolute left-3.5 top-6 h-3.5 w-3.5 rounded-full border-2 border-[#090c1e] bg-rose shadow-[0_0_14px_#d48c84] sm:left-5.5"></span>
+                <div class="glass-card rounded-3xl p-6 sm:p-7">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h2 class="text-lg font-semibold text-offwhite">Residence Advisor · <span class="text-peach">Wake Forest Residence Life and Housing</span></h2>
+                    <span class="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-offwhite/70">Feb 2026 — May 2026</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-offwhite/75">
+                    Pitched partnerships with two campus offices to deliver fully funded community programming for 41 residents, while serving as a trusted mediator among 27 hall residents, Residence Life staff, and university offices to foster a supportive living environment.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================================== -->
+      <!-- SUBPAGE 5: CONTACT                                              -->
+      <!-- =============================================================== -->
+      <section id="page-contact" class="subpage-view hidden">
+        <div class="mb-8">
+          <div class="mb-2 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-peach">
+            <span class="h-2 w-2 rounded-full bg-peach shadow-[0_0_12px_#e8a87c]"></span>
+            <span>Star 05 · Alkaid</span>
+          </div>
+          <h1 class="font-serif italic text-3xl sm:text-4xl text-offwhite">Send a Signal Across the Sky</h1>
+          <p class="mt-1.5 text-sm text-offwhite/75">Connect with me on LinkedIn, reach out via organizational email, or send a direct note below.</p>
+        </div>
+
+        <div class="space-y-8">
+          <!-- TOP SECTION: PREVIEWABLE LINKEDIN PROFILE & DIRECT EMAIL -->
+          <div class="space-y-6">
+            <!-- Prominent LinkedIn Profile Preview Card -->
+            <div class="glass-card rounded-3xl border border-offwhite/15 overflow-hidden">
+              <!-- Browser / Window Header Bar -->
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-offwhite/10 bg-[#070a18]/90 px-4 py-3 sm:px-6">
+                <div class="flex items-center gap-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-rose/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-peach/70"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
+                  <span class="ml-2 inline-block rounded-full bg-white/5 px-3 py-1 text-xs text-offwhite/65">
+                    linkedin.com/in/celine-chiang-043717345
+                  </span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onclick="reloadLinkedInBadge()"
+                    class="text-xs text-offwhite/65 hover:text-peach transition-colors cursor-pointer"
+                    title="Reload LinkedIn Profile Badge"
+                  >
+                    ↻ Reload LinkedIn Badge
+                  </button>
+                  <a
+                    href="https://www.linkedin.com/in/celine-chiang-043717345"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-4 py-1.5 text-xs font-semibold text-[#090c1e] shadow-md shadow-peach/20 transition-transform hover:scale-[1.02]"
+                  >
+                    <span>Open Full LinkedIn Profile ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Split Interactive LinkedIn Preview Body -->
+              <div class="grid grid-cols-1 gap-6 p-6 sm:p-8 lg:grid-cols-12 items-center">
+                <!-- Left: Official LinkedIn Horizontal Profile Badge Embed -->
+                <div class="lg:col-span-5 flex flex-col items-center justify-center rounded-2xl border border-offwhite/10 bg-[#070a18]/65 p-4 overflow-x-auto">
+                  <div
+                    id="linkedin-badge-container"
+                    class="badge-base LI-profile-badge"
+                    data-locale="en_US"
+                    data-size="large"
+                    data-theme="dark"
+                    data-type="HORIZONTAL"
+                    data-vanity="celine-chiang-043717345"
+                    data-version="v1"
+                  >
+                    <a
+                      class="badge-base__link LI-simple-link inline-flex items-center gap-2 text-sm font-medium text-peach hover:underline"
+                      href="https://www.linkedin.com/in/celine-chiang-043717345?trk=profile-badge"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Celine Chiang · LinkedIn Profile ↗
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Right: Rich Glassmorphic LinkedIn Profile Summary Card -->
+                <div class="lg:col-span-7 space-y-4">
+                  <div class="flex items-start gap-4">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-peach/40 bg-gradient-to-br from-[#2d2e59] via-[#68557a] to-[#d48c84] font-serif italic text-xl font-semibold text-offwhite shadow-lg">
+                      CC
+                    </div>
+                    <div>
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h2 class="text-xl font-semibold text-offwhite">Celine Chiang</h2>
+                        <span class="rounded-full border border-[#0a66c2]/50 bg-[#0a66c2]/20 px-2.5 py-0.5 text-[11px] font-medium text-[#70b5f9]">
+                          in · LinkedIn
+                        </span>
+                      </div>
+                      <p class="mt-1 text-sm font-medium text-peach">
+                        Wake Forest University Researcher · Digital Media &amp; Campus Leadership
+                      </p>
+                      <p class="mt-0.5 text-xs text-offwhite/65">
+                        Wake Forest University · New York University (sc11296@nyu.edu)
+                      </p>
+                    </div>
+                  </div>
+
+                  <p class="text-xs sm:text-sm leading-relaxed text-offwhite/80">
+                    Undergraduate Research Fellow at the WFU Center for Functional Materials, Social Media Assistant at the Wake Forest Humanities Institute, and President &amp; Secretary of the Asian Student Interest Association.
+                  </p>
+
+                  <div class="flex flex-wrap gap-2 pt-1">
+                    <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-[11px] text-offwhite/85">Chiral Spectroscopy &amp; Laser Optics</span>
+                    <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-[11px] text-offwhite/85">Digital Storytelling &amp; Reels</span>
+                    <span class="rounded-full border border-offwhite/12 bg-white/5 px-3 py-1 text-[11px] text-offwhite/85">Data Organization</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Direct Organizational Email Card -->
+            <div class="glass-card rounded-3xl border border-offwhite/15 p-6 sm:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="text-xs uppercase tracking-[0.2em] text-peach">Direct Organizational Email</div>
+                <a
+                  href="mailto:sc11296@nyu.edu"
+                  class="mt-1 inline-block text-base sm:text-lg font-medium text-offwhite hover:text-peach transition-colors"
+                >
+                  sc11296@nyu.edu
+                </a>
+              </div>
+              <div class="flex items-center gap-3">
+                <button
+                  type="button"
+                  onclick="copyEmail()"
+                  class="rounded-full border border-peach/40 bg-peach/15 px-5 py-2 text-xs sm:text-sm font-medium text-peach hover:bg-peach/25 transition-colors cursor-pointer"
+                >
+                  Copy Email
+                </button>
+                <a
+                  href="mailto:sc11296@nyu.edu"
+                  class="rounded-full border border-offwhite/15 bg-white/5 px-5 py-2 text-xs sm:text-sm font-medium text-offwhite hover:border-peach/50 hover:text-peach transition-colors"
+                >
+                  Compose ↗
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM SECTION: CONTACT MESSAGE FORM -->
+          <form onsubmit="handleContactSubmit(event)" class="glass-card rounded-3xl border border-offwhite/15 p-6 sm:p-8 space-y-5">
+            <div class="border-b border-offwhite/10 pb-4">
+              <h2 class="font-serif italic text-2xl text-offwhite">Send a Direct Message</h2>
+              <p class="mt-1 text-xs sm:text-sm text-offwhite/70">Fill out your name, email address, and message below to get in touch.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <label for="contact-name" class="block text-xs uppercase tracking-wider text-offwhite/70 mb-2">Your Name</label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  required
+                  placeholder="Jane Doe"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-peach focus:outline-none"
+                />
+              </div>
+              <div>
+                <label for="contact-email" class="block text-xs uppercase tracking-wider text-offwhite/70 mb-2">Email Address</label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  required
+                  placeholder="jane@example.com"
+                  class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-peach focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-xs uppercase tracking-wider text-offwhite/70 mb-2">Message</label>
+              <textarea
+                id="contact-message"
+                rows="4"
+                required
+                placeholder="Tell me about your idea, research collaboration, or opportunity..."
+                class="w-full rounded-2xl border border-offwhite/15 bg-white/5 px-4 py-3 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-peach focus:outline-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-2xl bg-gradient-to-r from-[#e8a87c] to-[#d48c84] px-6 py-3.5 text-sm font-semibold text-[#090c1e] shadow-lg shadow-peach/20 transition-transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            >
+              Send Message ✦
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- LinkedIn Official Profile Badge Script -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: STARFIELD, GRASS BLADES, NAVIGATION & INTERACTIONS        -->
+  <!-- ===================================================================== -->
+  <script>
+    // 1. Generate Procedural Twinkling Starfield
+    function populateStarfield(containerId, count, maxTopPercent) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement("span");
+        star.className = "bg-star";
+
+        const size = (Math.random() * 2.2 + 0.8).toFixed(2);
+        const left = (Math.random() * 100).toFixed(2);
+        const top = (Math.random() * maxTopPercent).toFixed(2);
+        const duration = (Math.random() * 4.5 + 2.5).toFixed(2);
+        const delay = (Math.random() * 5).toFixed(2);
+        const minOp = (Math.random() * 0.25 + 0.12).toFixed(2);
+        const maxOp = (Math.random() * 0.45 + 0.55).toFixed(2);
+
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}%`;
+        star.style.top = `${top}%`;
+        star.style.setProperty("--dur", `${duration}s`);
+        star.style.setProperty("--delay", `${delay}s`);
+        star.style.setProperty("--min-op", minOp);
+        star.style.setProperty("--max-op", maxOp);
+
+        fragment.appendChild(star);
+      }
+      container.appendChild(fragment);
+    }
+
+    // 2. Periodic Subtle Shooting Star across the Twilight Sky
+    function triggerShootingStar() {
+      const container = document.getElementById("shooting-star-container");
+      const homeView = document.getElementById("home-view");
+      if (!container || homeView.classList.contains("hidden")) return;
+
+      const meteor = document.createElement("div");
+      meteor.className = "shooting-star";
+      meteor.style.left = `${55 + Math.random() * 40}%`;
+      meteor.style.top = `${6 + Math.random() * 24}%`;
+      container.appendChild(meteor);
+
+      setTimeout(() => {
+        meteor.remove();
+      }, 1700);
+    }
+
+    // 3. Generate 475 Quadratic Bezier-Rooted Grass Blades along the Hill Horizon
+    function generateHillGrass() {
+      const grassGroup = document.getElementById("hill-grass-blades");
+      if (!grassGroup) return;
+
+      const svgNS = "http://www.w3.org/2000/svg";
+      const totalBlades = 475;
+
+      // Piecewise quadratic Bezier segments matching the rolling hill horizon path:
+      // Segment 1: (0,492) -> Q(420,486) -> (780,464)
+      // Segment 2: (780,464) -> Q(1060,444) -> (1175,448)
+      // Segment 3: (1175,448) -> Q(1310,453) -> (1440,468)
+      function getHillPoint(x) {
+        if (x <= 780) {
+          const t = x / 780;
+          const y =
+            (1 - t) * (1 - t) * 492 +
+            2 * (1 - t) * t * 486 +
+            t * t * 464;
+          return { x, y };
+        } else if (x <= 1175) {
+          const t = (x - 780) / (1175 - 780);
+          const y =
+            (1 - t) * (1 - t) * 464 +
+            2 * (1 - t) * t * 444 +
+            t * t * 448;
+          return { x, y };
+        } else {
+          const t = (x - 1175) / (1440 - 1175);
+          const y =
+            (1 - t) * (1 - t) * 448 +
+            2 * (1 - t) * t * 453 +
+            t * t * 468;
+          return { x, y };
+        }
+      }
+
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < totalBlades; i++) {
+        const x = (i / (totalBlades - 1)) * 1440 + (Math.random() - 0.5) * 2.5;
+        const clampedX = Math.max(0, Math.min(1440, x));
+        const { y } = getHillPoint(clampedX);
+
+        const height = 6 + Math.random() * 14;
+        const lean = (Math.random() - 0.42) * 11;
+        const baseHalfWidth = 0.9 + Math.random() * 1.1;
+
+        const blade = document.createElementNS(svgNS, "path");
+        const d = `M ${(clampedX - baseHalfWidth).toFixed(1)} ${(y + 2).toFixed(1)} ` +
+                  `Q ${(clampedX + lean * 0.45).toFixed(1)} ${(y - height * 0.55).toFixed(1)}, ` +
+                  `${(clampedX + lean).toFixed(1)} ${(y - height).toFixed(1)} ` +
+                  `Q ${(clampedX + lean * 0.55 + baseHalfWidth * 0.6).toFixed(1)} ${(y - height * 0.45).toFixed(1)}, ` +
+                  `${(clampedX + baseHalfWidth).toFixed(1)} ${(y + 2).toFixed(1)} Z`;
+
+        blade.setAttribute("d", d);
+        fragment.appendChild(blade);
+      }
+
+      grassGroup.appendChild(fragment);
+    }
+
+    // 4. Highlight Big Dipper Constellation Lines on Star Hover
+    function highlightConstellation(active) {
+      const wrapper = document.getElementById("constellation-wrapper");
+      if (!wrapper) return;
+      wrapper.classList.toggle("constellation-active", active);
+    }
+
+    // 5. Starlight Transition & Page Router
+    const pageNames = {
+      home: "Returning to Night Sky...",
+      about: "Following Dubhe · About Me...",
+      projects: "Following Merak · Projects...",
+      skills: "Following Megrez · Skills...",
+      experience: "Following Phecda · Experience...",
+      contact: "Following Alkaid · Contact..."
+    };
+
+    function navigateTo(route) {
+      const veil = document.getElementById("transition-veil");
+      const label = document.getElementById("transition-label");
+      const homeView = document.getElementById("home-view");
+      const subpageShell = document.getElementById("subpage-shell");
+
+      if (label) {
+        label.textContent = pageNames[route] || "Following star...";
+      }
+
+      veil.classList.add("active");
+
+      setTimeout(() => {
+        if (route === "home") {
+          subpageShell.classList.add("hidden");
+          homeView.classList.remove("hidden");
+          homeView.classList.add("view-enter");
+          window.scrollTo({ top: 0, behavior: "instant" });
+          history.replaceState(null, "", "#home");
+        } else {
+          homeView.classList.add("hidden");
+          subpageShell.classList.remove("hidden");
+
+          // Hide all subpages
+          document.querySelectorAll(".subpage-view").forEach((el) => {
+            el.classList.add("hidden");
+            el.classList.remove("view-enter");
+          });
+
+          // Show target subpage
+          const targetSection = document.getElementById(`page-${route}`);
+          if (targetSection) {
+            targetSection.classList.remove("hidden");
+            targetSection.classList.add("view-enter");
+          }
+
+          // Update active pill styling in sticky nav
+          document.querySelectorAll(".sub-nav-pill").forEach((pill) => {
+            const isMatch = pill.getAttribute("data-nav") === route;
+            pill.classList.toggle("bg-peach/20", isMatch);
+            pill.classList.toggle("text-peach", isMatch);
+            pill.classList.toggle("border", isMatch);
+            pill.classList.toggle("border-peach/40", isMatch);
+            pill.classList.toggle("text-offwhite/75", !isMatch);
+          });
+
+          window.scrollTo({ top: 0, behavior: "instant" });
+          history.replaceState(null, "", `#${route}`);
+
+          if (route === "contact" && typeof window.LIRenderAll === "function") {
+            setTimeout(() => {
+              try {
+                window.LIRenderAll();
+              } catch (e) {
+                // Ignore if LinkedIn badge script is still initializing
+              }
+            }, 120);
+          }
+        }
+
+        setTimeout(() => {
+          veil.classList.remove("active");
+        }, 220);
+      }, 320);
+    }
+
+    // 6. Toast Notification Helper
+    let toastTimeout;
+    function showToast(message) {
+      const box = document.getElementById("toast-box");
+      const text = document.getElementById("toast-message");
+      if (!box || !text) return;
+
+      text.textContent = message;
+      box.classList.remove("hidden");
+
+      requestAnimationFrame(() => {
+        box.classList.remove("translate-y-4", "opacity-0");
+      });
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        box.classList.add("translate-y-4", "opacity-0");
+        setTimeout(() => box.classList.add("hidden"), 300);
+      }, 3200);
+    }
+
+    // 7. Contact Form & Email Copy Handlers
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById("contact-name");
+      const senderName = nameInput && nameInput.value ? nameInput.value.trim() : "Friend";
+      showToast(`Thank you, ${senderName}! Your message has been sent across the night sky.`);
+      event.target.reset();
+    }
+
+    function copyEmail() {
+      const email = "sc11296@nyu.edu";
+      const tempInput = document.createElement("input");
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand("copy");
+        showToast("Copied sc11296@nyu.edu to clipboard!");
+      } catch (err) {
+        showToast("Email: sc11296@nyu.edu");
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function reloadLinkedInBadge() {
+      if (typeof window.LIRenderAll === "function") {
+        try {
+          window.LIRenderAll();
+          showToast("Reloading LinkedIn profile badge...");
+          return;
+        } catch (err) {
+          // Fallback to opening profile toast if blocked
+        }
+      }
+      showToast("LinkedIn preview refreshed (linkedin.com/in/celine-chiang-043717345)");
+    }
+
+    // 7b. Reload Individual Instagram Reel Player Iframe
+    function reloadReelIframe(iframeId) {
+      const iframe = document.getElementById(iframeId);
+      if (!iframe) return;
+      const currentSrc = iframe.src;
+      iframe.src = "";
+      requestAnimationFrame(() => {
+        iframe.src = currentSrc;
+      });
+      showToast("Reloading Instagram Reel player...");
+    }
+
+    // 7c. Collapse / Expand Experience Group Sections
+    function toggleExperienceGroup(groupId, btn) {
+      const group = document.getElementById(groupId);
+      if (!group || !btn) return;
+
+      const isCurrentlyExpanded = btn.getAttribute("aria-expanded") === "true";
+      const nextExpanded = !isCurrentlyExpanded;
+
+      btn.setAttribute("aria-expanded", String(nextExpanded));
+      group.classList.toggle("hidden", !nextExpanded);
+
+      const chevron = btn.querySelector(".exp-chevron");
+      if (chevron) {
+        chevron.classList.toggle("-rotate-90", !nextExpanded);
+      }
+    }
+
+    // 8. Initialize Starfields, Grass, Shooting Stars & URL Hash Route
+    window.addEventListener("DOMContentLoaded", () => {
+      populateStarfield("home-starfield", 95, 72);
+      populateStarfield("subpage-starfield", 65, 100);
+      generateHillGrass();
+
+      setInterval(triggerShootingStar, 7500);
+      setTimeout(triggerShootingStar, 1800);
+
+      const initialHash = window.location.hash.replace("#", "");
+      if (["about", "projects", "skills", "experience", "contact"].includes(initialHash)) {
+        navigateTo(initialHash);
+      }
+    });
+  </script>
+</body>
+</html>
